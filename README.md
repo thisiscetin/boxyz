@@ -1,6 +1,6 @@
-# 🧊 boxyz 
+# 📦 boxyz 
 
-I know it sounds strange, but maybe these boxes 📦 can breed and have children.
+I know it sounds strange, but maybe these boxes can breed and have children.
 
 ## 👽 what is boxyz?
 
@@ -10,7 +10,7 @@ boxyz is a blockchain game where you can own boxes in different colors and sizes
 
 The first target is to deploy boxyz to [Pluto test network](https://plutotest.network/). After that, it should be deployable to any EVM compatible blockchain.
 
-## 📦 boxyz properties
+## 🧊 boxyz properties
 
 - Every box has a distinct volume and color.
 - Every box can breed up to three times and create (mint) new boxes.

@@ -1,6 +1,23 @@
 {
+  "scripts": {
+    "prettier:solidity": "./node_modules/.bin/prettier --write contracts/**/*.sol"
+  },
   "dependencies": {
     "@truffle/hdwallet-provider": "^2.0.5",
     "openzeppelin-solidity": "^4.5.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.13.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eth-gas-reporter": "^0.2.25",
+    "husky": "^7.0.4",
+    "prettier": "^2.6.2",
+    "prettier-plugin-solidity": "^1.0.0-beta.19",
+    "solhint-plugin-prettier": "^0.0.5"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "npm run prettier:solidity"
+    }
   }
 }

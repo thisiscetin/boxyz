@@ -74,6 +74,35 @@ contract("BoxFactory: createBox", (accounts) => {
 });
 
 contract("BoxFactory: breed", (accounts) => {
+  describe("breed cap is configurable", () => {
+    let boxFactory;
+
+    beforeEach(async () => {
+      boxFactory = await BoxFactoryContract.deployed();
+    });
+
+    it("gets default breed cap if not set", async () => {
+      const actual = await boxFactory.breedCap();
+      assert.equal(actual, 3, "breed cap should be 3");
+    });
+
+    it("sets breed to a value", async () => {
+      await boxFactory.setBreedCap(5);
+      const actual = await boxFactory.breedCap();
+      assert.equal(actual, 5, "breed cap should be 5");
+    });
+
+    it("only owner should be able to set breed to a value", async () => {
+      try {
+        await boxFactory.setBreedCap.call(6, { from: accounts[2] });
+        assert.fail("error was not raised")
+      } catch (err) {
+        const expected = "caller is not the owner";
+        assert.ok(err.message.includes(expected), `${err.message}`);
+      }
+    });
+  })
+
   describe("when two boxes breed, it should produce a box", () => {
     let boxFactory;
 
@@ -111,6 +140,31 @@ contract("BoxFactory: breed", (accounts) => {
         1,
         "should increment box count by 1"
       );
+    });
+
+    it("raises error when breeding cap is reached", async () => {
+      await boxFactory.setBreedCap(3);
+
+      await boxFactory.breed(0, 1, {
+        from: accounts[0],
+        value: web3.utils.toWei("0.3", "ether")
+      });
+
+      await boxFactory.breed(0, 1, {
+        from: accounts[0],
+        value: web3.utils.toWei("0.3", "ether")
+      });
+
+      try {
+        await boxFactory.breed(0, 1, {
+          from: accounts[0],
+          value: web3.utils.toWei("0.3", "ether")
+        });
+        assert.fail("error was not raised")
+      } catch (err) {
+        const expected = "Parent 1 has reached its breeding cap";
+        assert.ok(err.message.includes(expected), `${err.message}`);
+      }
     });
   });
 });

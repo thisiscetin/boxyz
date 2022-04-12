@@ -10,7 +10,7 @@ contract BoxFactory is Ownable {
     mapping(uint256 => uint256) private _breedCounts;
 
     uint256 public breedCost = 0.3 ether;
-    uint8 public breedCap = 5;
+    uint8 public breedCap = 3;
 
     event BoxCreated(Box indexed box, address indexed owner);
 
@@ -41,6 +41,14 @@ contract BoxFactory is Ownable {
         _boxes.push(box);
 
         emit BoxCreated(box, owner());
+    }
+
+    function getBox(uint256 _index) public view returns (Box) {
+        return _boxes[_index];
+    }
+
+    function setBreedCap(uint8 _cap) public onlyOwner {
+        breedCap = _cap;
     }
 
     function breed(uint256 parent1Id, uint256 parent2Id) public payable {
@@ -83,6 +91,8 @@ contract BoxFactory is Ownable {
             1
         );
         _boxes.push(box);
+        _breedCounts[parent1Id]++;
+        _breedCounts[parent2Id]++;
 
         emit BoxCreated(box, msg.sender);
     }

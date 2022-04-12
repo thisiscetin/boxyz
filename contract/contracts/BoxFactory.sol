@@ -132,44 +132,27 @@ contract BoxFactory is Ownable {
 
         Box box1 = _boxes[parent1Id];
         Box box2 = _boxes[parent2Id];
+        uint16 x;
+        uint16 y;
+        uint16 z;
+        uint16 r;
+        uint16 g;
+        uint16 b;
 
-        Box box;
-        if (roll() < 10) {
-            box = new Box(
-                boxCount(),
-                address(box1),
-                address(box2),
-                randomSize(),
-                randomSize(),
-                randomSize(),
-                randomColorF(),
-                randomColorF(),
-                randomColorF()
-            );
-        } else {
-            uint16 x;
-            uint16 y;
-            uint16 z;
+        (x, y, z) = box1.avgDimension(box2);
+        (r, g, b) = box1.avgColor(box2);
 
-            uint16 r;
-            uint16 g;
-            uint16 b;
-
-            (x, y, z) = box1.avgDimension(box2);
-            (r, g, b) = box1.avgColor(box2);
-
-            box = new Box(
-                boxCount(),
-                address(box1),
-                address(box2),
-                x,
-                y,
-                z,
-                r,
-                g,
-                b
-            );
-        }
+        Box box = new Box(
+            boxCount(),
+            address(box1),
+            address(box2),
+            roll() < 10 ? randomSize() : x,
+            roll() < 10 ? randomSize() : y,
+            roll() < 10 ? randomSize() : z,
+            roll() < 10 ? randomColorF() : r,
+            roll() < 10 ? randomColorF() : g,
+            roll() < 10 ? randomColorF() : b
+        );
 
         _boxes.push(box);
         _breedCounts[parent1Id]++;

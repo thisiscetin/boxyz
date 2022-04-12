@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
-const BoxFactory = artifacts.require('BoxFactory');
+const Migrations = artifacts.require('Migrations');
 
 module.exports = function (deployer) {
-  deployer.deploy(BoxFactory);
+  deployer.deploy(Migrations);
 };

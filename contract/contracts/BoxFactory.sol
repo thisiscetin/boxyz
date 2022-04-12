@@ -10,7 +10,9 @@ contract BoxFactory is Ownable {
     mapping(uint256 => uint256) private _breedCounts;
 
     uint256 public breedCost = 0.3 ether;
-    uint8 public breedCap = 3;
+    uint16 public breedCap = 3;
+
+    uint256 private nonce = 0;
 
     event BoxCreated(Box indexed box, address indexed owner);
 
@@ -22,9 +24,9 @@ contract BoxFactory is Ownable {
         uint16 _x,
         uint16 _y,
         uint16 _z,
-        uint8 _r,
-        uint8 _g,
-        uint8 _b
+        uint16 _r,
+        uint16 _g,
+        uint16 _b
     ) public onlyOwner {
         Box box = new Box(
             boxCount(),
@@ -47,8 +49,60 @@ contract BoxFactory is Ownable {
         return _boxes[_index];
     }
 
-    function setBreedCap(uint8 _cap) public onlyOwner {
+    function getBreedCount(uint256 _index) public view returns (uint256) {
+        return _breedCounts[_index];
+    }
+
+    function getBoxesOf(address owner)
+        public
+        view
+        returns (Box[] memory boxes_)
+    {
+        uint256 count = 0;
+        for (uint256 i = 0; i < _boxes.length; i++) {
+            if (_boxes[i].owner() == owner) {
+                count++;
+            }
+        }
+
+        boxes_ = new Box[](count);
+        uint256 j = 0;
+        for (uint256 i = 0; i < _boxes.length; i++) {
+            if (_boxes[i].owner() == owner) {
+                boxes_[j] = _boxes[i];
+                j++;
+            }
+        }
+        return boxes_;
+    }
+
+    function setBreedCap(uint16 _cap) public onlyOwner {
         breedCap = _cap;
+    }
+
+    function randomSize() internal returns (uint16) {
+        uint256 randomnumber = uint256(
+            keccak256(abi.encodePacked(block.timestamp, msg.sender, nonce))
+        ) % 900;
+        randomnumber = randomnumber + 100;
+        nonce++;
+        return uint16(randomnumber);
+    }
+
+    function randomColorF() internal returns (uint16) {
+        uint256 randomnumber = uint256(
+            keccak256(abi.encodePacked(block.timestamp, msg.sender, nonce))
+        ) % 255;
+        nonce++;
+        return uint16(randomnumber);
+    }
+
+    function roll() internal returns (uint16) {
+        uint256 randomnumber = uint256(
+            keccak256(abi.encodePacked(block.timestamp, msg.sender, nonce))
+        ) % 100;
+        nonce++;
+        return uint16(randomnumber);
     }
 
     function breed(uint256 parent1Id, uint256 parent2Id) public payable {
@@ -79,17 +133,44 @@ contract BoxFactory is Ownable {
         Box box1 = _boxes[parent1Id];
         Box box2 = _boxes[parent2Id];
 
-        Box box = new Box(
-            boxCount(),
-            address(box1),
-            address(box2),
-            1,
-            1,
-            1,
-            1,
-            1,
-            1
-        );
+        Box box;
+        if (roll() < 10) {
+            box = new Box(
+                boxCount(),
+                address(box1),
+                address(box2),
+                randomSize(),
+                randomSize(),
+                randomSize(),
+                randomColorF(),
+                randomColorF(),
+                randomColorF()
+            );
+        } else {
+            uint16 x;
+            uint16 y;
+            uint16 z;
+
+            uint16 r;
+            uint16 g;
+            uint16 b;
+
+            (x, y, z) = box1.avgDimension(box2);
+            (r, g, b) = box1.avgColor(box2);
+
+            box = new Box(
+                boxCount(),
+                address(box1),
+                address(box2),
+                x,
+                y,
+                z,
+                r,
+                g,
+                b
+            );
+        }
+
         _boxes.push(box);
         _breedCounts[parent1Id]++;
         _breedCounts[parent2Id]++;

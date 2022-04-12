@@ -3,6 +3,7 @@ const BoxFactoryContract = artifacts.require("BoxFactory");
 contract("BoxFactory: deployment", () => {
   it("has been deployed", async () => {
     const boxFactory = BoxFactoryContract.deployed();
+
     assert(boxFactory, "box factory was not deployed");
   });
 });
@@ -142,8 +143,23 @@ contract("BoxFactory: breed", (accounts) => {
       );
     });
 
+    it("getBoxesOf returns all boxes of an address", async () => {
+      await boxFactory.breed(0, 1, {
+        from: accounts[0],
+        value: web3.utils.toWei("0.3", "ether")
+      });
+
+      const boxes = await boxFactory.getBoxesOf(accounts[0]);
+      assert.equal(
+        boxes.length,
+        4,
+        "should return 3 boxes"
+      );
+    });
+
     it("raises error when breeding cap is reached", async () => {
-      await boxFactory.setBreedCap(3);
+      const breedCount = await boxFactory.getBreedCount(0);
+      await boxFactory.setBreedCap(2 + breedCount.toNumber());
 
       await boxFactory.breed(0, 1, {
         from: accounts[0],

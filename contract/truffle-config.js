@@ -13,12 +13,7 @@ module.exports = {
       network_id: 1,
     },
   },
-  mocha: {
-    reporter: 'eth-gas-reporter',
-    reporterOptions: {
-      excludeContracts: ['Migrations']
-    }
-  },
+  mocha: {},
   compilers: {
     solc: {
       version: '^0.8.1',

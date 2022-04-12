@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: CC-BY-4.0
 pragma solidity ^0.8.1;
 
-import './Box.sol';
+import "./Box.sol";
 
-import 'openzeppelin-solidity/contracts/access/Ownable.sol';
+import "openzeppelin-solidity/contracts/access/Ownable.sol";
 
 contract BoxFactory is Ownable {
     Box[] private _boxes;
@@ -28,7 +28,17 @@ contract BoxFactory is Ownable {
         uint16 _g,
         uint16 _b
     ) public onlyOwner {
-        Box box = new Box(boxCount(), address(0), address(0), _x, _y, _z, _r, _g, _b);
+        Box box = new Box(
+            boxCount(),
+            address(0),
+            address(0),
+            _x,
+            _y,
+            _z,
+            _r,
+            _g,
+            _b
+        );
         box.transferOwnership(msg.sender);
         _boxes.push(box);
 
@@ -43,7 +53,11 @@ contract BoxFactory is Ownable {
         return _breedCounts[_index];
     }
 
-    function getBoxesOf(address owner) public view returns (Box[] memory boxes_) {
+    function getBoxesOf(address owner)
+        public
+        view
+        returns (Box[] memory boxes_)
+    {
         uint256 count = 0;
         for (uint256 i = 0; i < _boxes.length; i++) {
             if (_boxes[i].owner() == owner) {
@@ -92,14 +106,29 @@ contract BoxFactory is Ownable {
     }
 
     function breed(uint256 parent1Id, uint256 parent2Id) public payable {
-        require(parent1Id < boxCount(), 'Parent 1 does not exist');
-        require(parent2Id < boxCount(), 'Parent 2 does not exist');
-        require(parent1Id != parent2Id, 'Parent 1 and 2 cannot be the same');
-        require(msg.value == breedCost, 'You must send exactly the breeding cost');
-        require(_boxes[parent1Id].owner() == msg.sender, 'You are not the owner of parent 1');
-        require(_boxes[parent2Id].owner() == msg.sender, 'You are not the owner of parent 2');
-        require(_breedCounts[parent1Id] < breedCap, 'Parent 1 has reached its breeding cap');
-        require(_breedCounts[parent2Id] < breedCap, 'Parent 2 has reached its breeding cap');
+        require(parent1Id < boxCount(), "Parent 1 does not exist");
+        require(parent2Id < boxCount(), "Parent 2 does not exist");
+        require(parent1Id != parent2Id, "Parent 1 and 2 cannot be the same");
+        require(
+            msg.value == breedCost,
+            "You must send exactly the breeding cost"
+        );
+        require(
+            _boxes[parent1Id].owner() == msg.sender,
+            "You are not the owner of parent 1"
+        );
+        require(
+            _boxes[parent2Id].owner() == msg.sender,
+            "You are not the owner of parent 2"
+        );
+        require(
+            _breedCounts[parent1Id] < breedCap,
+            "Parent 1 has reached its breeding cap"
+        );
+        require(
+            _breedCounts[parent2Id] < breedCap,
+            "Parent 2 has reached its breeding cap"
+        );
 
         Box box1 = _boxes[parent1Id];
         Box box2 = _boxes[parent2Id];

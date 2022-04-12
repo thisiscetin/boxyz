@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: CC-BY-4.0
 pragma solidity ^0.8.1;
 
-import 'openzeppelin-solidity/contracts/access/Ownable.sol';
+import "openzeppelin-solidity/contracts/access/Ownable.sol";
 
 contract Box is Ownable {
     uint256 public id;
@@ -38,7 +38,11 @@ contract Box is Ownable {
         b = _b;
     }
 
-    function parents() public view returns (address parent1_, address parent2_) {
+    function parents()
+        public
+        view
+        returns (address parent1_, address parent2_)
+    {
         return (parent1, parent2);
     }
 

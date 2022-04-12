@@ -1,13 +1,12 @@
 const HDWalletProvider = require('@truffle/hdwallet-provider');
 const fs = require('fs');
 
-const mnemonic =
-  process.env.MNEMONIC || fs.readFileSync('.secret').toString().trim();
+const mnemonic = process.env.MNEMONIC || fs.readFileSync('.secret').toString().trim();
 
 module.exports = {
   networks: {
     pluto: {
-      provider: function () {
+      provider() {
         return new HDWalletProvider(mnemonic, 'http://10.10.10.113:8545');
       },
       network_id: 1,
@@ -25,4 +24,4 @@ module.exports = {
       },
     },
   },
-}; 
+};

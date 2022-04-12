@@ -1,8 +1,10 @@
 // SPDX-License-Identifier: CC-BY-4.0
 pragma solidity ^0.8.1;
 
-contract Box {
-    address public owner;
+import "openzeppelin-solidity/contracts/access/Ownable.sol";
+
+contract Box is Ownable {
+    uint256 public id;
     address private parent1;
     address private parent2;
 
@@ -15,9 +17,9 @@ contract Box {
     uint8 private b;
 
     constructor(
+        uint256 _id,
         address _parent1,
         address _parent2,
-        address _owner,
         uint16 _x,
         uint16 _y,
         uint16 _z,
@@ -25,9 +27,9 @@ contract Box {
         uint8 _g,
         uint8 _b
     ) {
+        id = _id;
         parent1 = _parent1;
         parent2 = _parent2;
-        owner = _owner;
         x = _x;
         y = _y;
         z = _z;

@@ -1,5 +1,5 @@
-const Migrations = artifacts.require("Migrations");
+const BoxFactory = artifacts.require("BoxFactory");
 
 module.exports = function (deployer) {
-  deployer.deploy(Migrations);
+  deployer.deploy(BoxFactory);
 };

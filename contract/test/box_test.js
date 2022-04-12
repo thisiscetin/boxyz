@@ -3,9 +3,9 @@ const BoxContract = artifacts.require("Box");
 contract("Box", accounts => {
   let box;
 
+  const id = 1;
   const parent1 = "0x0000000000000000000000000000000000000000";
   const parent2 = "0x0000000000000000000000000000000000000000";
-  const owner = accounts[0];
 
   const x = 100; // * /100 - [100-1000]
   const y = 1000;
@@ -17,9 +17,9 @@ contract("Box", accounts => {
 
   beforeEach(async () => {
     box = await BoxContract.new(
+      id,
       parent1,
       parent2,
-      owner,
       x,
       y,
       z,
@@ -30,6 +30,11 @@ contract("Box", accounts => {
   });
 
   describe("initialization", () => {
+    it("gets id", async () => {
+      const actual = await box.id();
+      assert.equal(actual, id, "parent1 is not matching.");
+    });
+
     it("gets parent1 address", async () => {
       const { parent1_: actual } = await box.parents();
       assert.equal(actual, parent1, "parent1 is not matching.");
@@ -42,7 +47,7 @@ contract("Box", accounts => {
 
     it("gets owner address", async () => {
       const actual = await box.owner();
-      assert.equal(actual, owner, "owner is not matching.");
+      assert.equal(actual, accounts[0], "owner is not matching.");
     });
 
     it("gets dimension on x", async () => {

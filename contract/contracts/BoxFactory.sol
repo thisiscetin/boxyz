@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: CC-BY-4.0
-pragma solidity ^0.8.1;
+pragma solidity 0.8.1;
 
-import './Box.sol';
+import "./Box.sol";
 
-import 'openzeppelin-solidity/contracts/access/Ownable.sol';
+import "openzeppelin-solidity/contracts/access/Ownable.sol";
 
 contract BoxFactory is Ownable {
     Box[] private _boxes;
@@ -16,7 +16,7 @@ contract BoxFactory is Ownable {
 
     event BoxCreated(Box indexed box, address indexed owner);
 
-    function boxCount() public view returns (uint256) {
+    function boxCount() public returns (uint256) {
         return _boxes.length;
     }
 
@@ -35,15 +35,15 @@ contract BoxFactory is Ownable {
         emit BoxCreated(box, owner());
     }
 
-    function getBox(uint256 _index) public view returns (Box) {
+    function getBox(uint256 _index) public returns (Box) {
         return _boxes[_index];
     }
 
-    function getBreedCount(uint256 _index) public view returns (uint256) {
+    function getBreedCount(uint256 _index) public returns (uint256) {
         return _breedCounts[_index];
     }
 
-    function getBoxesOf(address owner) public view returns (Box[] memory boxes_) {
+    function getBoxesOf(address owner) public returns (Box[] memory boxes_) {
         uint256 count = 0;
         for (uint256 i = 0; i < _boxes.length; i++) {
             if (_boxes[i].owner() == owner) {
@@ -66,40 +66,15 @@ contract BoxFactory is Ownable {
         breedCap = _cap;
     }
 
-    function randomSize() internal returns (uint16) {
-        uint256 randomnumber = uint256(
-            keccak256(abi.encodePacked(block.timestamp, msg.sender, nonce))
-        ) % 900;
-        randomnumber = randomnumber + 100;
-        nonce++;
-        return uint16(randomnumber);
-    }
-
-    function randomColorF() internal returns (uint16) {
-        uint256 randomnumber = uint256(
-            keccak256(abi.encodePacked(block.timestamp, msg.sender, nonce))
-        ) % 255;
-        nonce++;
-        return uint16(randomnumber);
-    }
-
-    function roll() internal returns (uint16) {
-        uint256 randomnumber = uint256(
-            keccak256(abi.encodePacked(block.timestamp, msg.sender, nonce))
-        ) % 100;
-        nonce++;
-        return uint16(randomnumber);
-    }
-
     function breed(uint256 parent1Id, uint256 parent2Id) public payable {
-        require(parent1Id < boxCount(), 'Parent 1 does not exist');
-        require(parent2Id < boxCount(), 'Parent 2 does not exist');
-        require(parent1Id != parent2Id, 'Parent 1 and 2 cannot be the same');
-        require(msg.value == breedCost, 'You must send exactly the breeding cost');
-        require(_boxes[parent1Id].owner() == msg.sender, 'You are not the owner of parent 1');
-        require(_boxes[parent2Id].owner() == msg.sender, 'You are not the owner of parent 2');
-        require(_breedCounts[parent1Id] < breedCap, 'Parent 1 has reached its breeding cap');
-        require(_breedCounts[parent2Id] < breedCap, 'Parent 2 has reached its breeding cap');
+        require(parent1Id < boxCount(), "p1 does not exist");
+        require(parent2Id < boxCount(), "p2 does not exist");
+        require(parent1Id != parent2Id, "p1 and p2 are same");
+        require(msg.value == breedCost, "value below breeding cost");
+        require(_boxes[parent1Id].owner() == msg.sender, "sender is not owner of p1");
+        require(_boxes[parent2Id].owner() == msg.sender, "sender is not owner of p2");
+        require(_breedCounts[parent1Id] < breedCap, "p1 has reached its breeding cap");
+        require(_breedCounts[parent2Id] < breedCap, "p2 has reached its breeding cap");
 
         Box box1 = _boxes[parent1Id];
         Box box2 = _boxes[parent2Id];
@@ -130,5 +105,30 @@ contract BoxFactory is Ownable {
         _breedCounts[parent2Id]++;
 
         emit BoxCreated(box, msg.sender);
+    }
+
+    function randomSize() internal returns (uint16) {
+        uint256 randomnumber = uint256(
+            keccak256(abi.encodePacked(block.timestamp, msg.sender, nonce))
+        ) % 900;
+        randomnumber = randomnumber + 100;
+        nonce++;
+        return uint16(randomnumber);
+    }
+
+    function randomColorF() internal returns (uint16) {
+        uint256 randomnumber = uint256(
+            keccak256(abi.encodePacked(block.timestamp, msg.sender, nonce))
+        ) % 255;
+        nonce++;
+        return uint16(randomnumber);
+    }
+
+    function roll() internal returns (uint16) {
+        uint256 randomnumber = uint256(
+            keccak256(abi.encodePacked(block.timestamp, msg.sender, nonce))
+        ) % 100;
+        nonce++;
+        return uint16(randomnumber);
     }
 }

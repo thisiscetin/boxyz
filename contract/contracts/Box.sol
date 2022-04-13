@@ -3,103 +3,61 @@ pragma solidity 0.8.1;
 
 import "openzeppelin-solidity/contracts/access/Ownable.sol";
 
-
 contract Box is Ownable {
     uint256 public id;
-    address public parent1;
-    address public parent2;
 
-    uint16 public x;
-    uint16 public y;
-    uint16 public z;
+    Color public color;
+    Size public size;
+    Parents public parents;
 
-    uint16 public r;
-    uint16 public g;
-    uint16 public b;
+    struct Color {
+        uint16 r;
+        uint16 g;
+        uint16 b;
+    }
+
+    struct Size {
+        uint16 x;
+        uint16 y;
+        uint16 z;
+    }
+
+    struct Parents {
+        address p1;
+        address p2;
+    }
 
     constructor(
         uint256 _id,
-        address _parent1,
-        address _parent2,
-        uint16 _x,
-        uint16 _y,
-        uint16 _z,
-        uint16 _r,
-        uint16 _g,
-        uint16 _b
-    ) public {
+        Color memory _color,
+        Size memory _size,
+        Parents memory _parents
+    ) {
         id = _id;
-        parent1 = _parent1;
-        parent2 = _parent2;
-        x = _x;
-        y = _y;
-        z = _z;
-        r = _r;
-        g = _g;
-        b = _b;
+        color = _color;
+        size = _size;
+        parents = _parents;
     }
 
-    function parents() public view returns (address parent1_, address parent2_) {
-        return (parent1, parent2);
+    function avgColor(Box _other) public view returns (Color memory) {
+        uint16 r;
+        uint16 g;
+        uint16 b;
+        (r, g, b) = _other.color();
+
+        return Color((color.r + r) / 2, (color.g + g) / 2, (color.b + b) / 2);
     }
 
-    function dimensions()
-        public
-        view
-        returns (
-            uint16 x_,
-            uint16 y_,
-            uint16 z_
-        )
-    {
-        return (x, y, z);
-    }
+    function avgSize(Box _other) public view returns (Size memory) {
+        uint16 x;
+        uint16 y;
+        uint16 z;
+        (x, y, z) = _other.size();
 
-    function color()
-        public
-        view
-        returns (
-            uint16 r_,
-            uint16 g_,
-            uint16 b_
-        )
-    {
-        return (r, g, b);
+        return Size((size.x + x) / 2, (size.y + y) / 2, (size.z + z) / 2);
     }
 
     function birthdate() public view returns (uint256) {
         return block.timestamp;
-    }
-
-    function avgDimension(Box _second)
-        public
-        view
-        returns (
-            uint16 x_,
-            uint16 y_,
-            uint16 z_
-        )
-    {
-        x_ = (x + _second.x()) / 2;
-        y_ = (y + _second.y()) / 2;
-        z_ = (z + _second.z()) / 2;
-
-        return (x_, y_, z_);
-    }
-
-    function avgColor(Box _second)
-        public
-        view
-        returns (
-            uint16 r_,
-            uint16 g_,
-            uint16 b_
-        )
-    {
-        r_ = (r + _second.r()) / 2;
-        g_ = (g + _second.g()) / 2;
-        b_ = (b + _second.b()) / 2;
-
-        return (r_, g_, b_);
     }
 }

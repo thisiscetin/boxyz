@@ -10,6 +10,9 @@ contract Box is Ownable {
     Size public size;
     Parents public parents;
 
+    uint256 public price;
+    bool public listed = false;
+
     struct Color {
         uint16 r;
         uint16 g;
@@ -37,6 +40,24 @@ contract Box is Ownable {
         color = _color;
         size = _size;
         parents = _parents;
+    }
+
+    function list(uint256 _price) public onlyOwner {
+        price = _price;
+        listed = true;
+    }
+
+    function unlist() public onlyOwner {
+        listed = false;
+    }
+
+    function buy() public payable {
+        require(listed, "box is not listed");
+        require(msg.value == price, "invalid price");
+        listed = false;
+
+        payable(owner()).transfer(msg.value);
+        _transferOwnership(msg.sender);
     }
 
     function avgColor(Box _other) public view returns (Color memory) {

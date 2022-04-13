@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: CC-BY-4.0
-pragma solidity ^0.8.1;
+pragma solidity 0.8.1;
 
 contract Migrations {
     address public owner = msg.sender;

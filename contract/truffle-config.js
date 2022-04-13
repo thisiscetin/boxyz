@@ -15,7 +15,7 @@ module.exports = {
   mocha: {},
   compilers: {
     solc: {
-      version: '^0.8.1',
+      version: '0.8.1',
       settings: {
         optimizer: {
           enabled: false,

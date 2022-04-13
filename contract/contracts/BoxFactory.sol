@@ -33,12 +33,12 @@ contract BoxFactory is Ownable {
         _breedCounts[_index] = 0;
     }
 
-    function ownedBoxes(address _owner) public view returns (uint256[] memory) {
+    function ownedBoxes(address owner) public view returns (uint256[] memory) {
         uint256[] memory indexes = new uint256[](counter());
         uint256 i = 0;
         for (uint256 j = 0; j < counter(); j++) {
             Box box = get(j);
-            if (box.owner() == _owner) {
+            if (box.owner() == owner) {
                 indexes[i] = j;
                 i++;
             }
@@ -71,6 +71,13 @@ contract BoxFactory is Ownable {
         _breedCounts[_index] = 0;
         _breedCounts[p1]++;
         _breedCounts[p2]++;
+    }
+
+    function withdraw() public onlyOwner {
+        uint256 balance = address(this).balance;
+
+        require(balance > 0, "no funds to withdraw");
+        payable(msg.sender).transfer(balance);
     }
 
     function randomSize() internal returns (Box.Size memory) {

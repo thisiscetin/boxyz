@@ -8,6 +8,58 @@ contract('BoxFactory: deployment', () => {
   });
 });
 
+contract('BoxFactory: withdraw', (accounts) => {
+  let boxFactory;
+
+  beforeEach(async () => {
+    boxFactory = await BoxFactoryContract.deployed();
+  });
+
+  it('fails withdrawal request when originates from non owner', async () => {
+    try {
+      await boxFactory.withdraw({ from: accounts[1] });
+      assert(false, 'should have thrown');
+    } catch (err) {
+      const expected = 'caller is not the owner';
+      assert.ok(err.message.includes(expected), `${err.message}`);
+    }
+  });
+
+  it('fails withdrawal request with 0 balance', async () => {
+    try {
+      await boxFactory.withdraw();
+      assert(false, 'should have thrown');
+    } catch (err) {
+      const expected = 'no funds to withdraw';
+      assert.ok(err.message.includes(expected), `${err.message}`);
+    }
+  });
+
+  it('withdraw funds as expected', async () => {
+    await boxFactory.create();
+    await boxFactory.create();
+
+    const box1Address = await boxFactory.get(0);
+    const box2Address = await boxFactory.get(1);
+    const box1 = await BoxContract.at(box1Address);
+    const box2 = await BoxContract.at(box2Address);
+
+    await box1.transferOwnership(accounts[1]);
+    await box2.transferOwnership(accounts[1]);
+
+    await boxFactory.breed(0, 1, {
+      value: web3.utils.toWei('0.3', 'ether'),
+      from: accounts[1],
+    });
+
+    const before = await web3.eth.getBalance(accounts[0]);
+    await boxFactory.withdraw();
+    const after = await web3.eth.getBalance(accounts[0]);
+
+    assert.ok((after - before) > 0, 'balance should have increased');
+  });
+});
+
 contract('BoxFactory: create', (accounts) => {
   let boxFactory;
 
@@ -156,6 +208,16 @@ contract('BoxFactory: breed', (accounts) => {
       postOwnedBoxes.length - preOwnedBoxes.length,
       1,
       'boxes owned should increment by 1',
+    );
+  });
+
+  it('breeds should increase contract balance', async () => {
+    const balance = await web3.eth.getBalance(boxFactory.address);
+
+    assert.equal(
+      balance,
+      web3.utils.toWei('0.3', 'ether'),
+      'contract balance should be 0.3 ether',
     );
   });
 

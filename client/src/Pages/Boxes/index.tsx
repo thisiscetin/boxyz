@@ -1,5 +1,7 @@
 import styled from 'styled-components/macro';
 
+import Title from '../../Components/Title';
+
 const Container = styled.div`
   display: flex;
   flex-direction: row;
@@ -11,7 +13,7 @@ const Container = styled.div`
 export default function () {
   return (
     <Container>
-      <p>Boxes</p>
+      <Title text={'Boxes'} />
     </Container>
   );
 }

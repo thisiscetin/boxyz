@@ -8,6 +8,7 @@ import Boxes from './Pages/Boxes';
 import Marketplace from './Pages/Marketplace';
 import Breed from './Pages/Breed';
 import Inventory from './Pages/Inventory';
+import Web3Connector from './Components/Web3Connector';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -23,13 +24,14 @@ function App() {
     <div className="App">
       <ThemeProvider theme={theme}>
         <Navigation />
-
-        <Routes>
-          <Route path="/" element={<Boxes />} />
-          <Route path="marketplace" element={<Marketplace />} />
-          <Route path="breed" element={<Breed />} />
-          <Route path="inventory" element={<Inventory />} />
-        </Routes>
+        <Web3Connector>
+          <Routes>
+            <Route path="/" element={<Boxes />} />
+            <Route path="marketplace" element={<Marketplace />} />
+            <Route path="breed" element={<Breed />} />
+            <Route path="inventory" element={<Inventory />} />
+          </Routes>
+        </Web3Connector>
       </ThemeProvider>
     </div>
   );

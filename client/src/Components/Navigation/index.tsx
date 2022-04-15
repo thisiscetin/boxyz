@@ -10,6 +10,7 @@ const Container = styled.div`
   align-items: flex-end;
   padding: 0.2rem 0;
   border-bottom: 0.1rem solid ${(props) => props.theme.bgdark};
+  margin: 0.2rem 0 0.4rem 0;
 `;
 
 const Section = styled('div')<{ pos: string }>`

@@ -10,10 +10,17 @@ const Container = styled.div`
   padding: 0.2rem 0;
 `;
 
-export default function () {
+type BoxesProps = {
+  value?: {
+    account?: string;
+  };
+};
+
+export default function ({ value: account }: BoxesProps) {
   return (
     <Container>
       <Title text={'Boxes'} />
+      <p>{account}</p>
     </Container>
   );
 }

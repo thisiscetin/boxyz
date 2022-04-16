@@ -12,7 +12,7 @@ import Inventory from './Pages/Inventory';
 import ChainStatus from './Components/ChainStatus';
 
 import { useAtom } from 'jotai';
-import { wProviderAtom, rpcProviderAtom, blockNumberAtom } from './store';
+import { wProviderAtom, rpcProviderAtom, blockNumberAtom, wChainIDAtom } from './store';
 import { ethers } from 'ethers';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -34,11 +34,19 @@ function App() {
   const [, setWProvider] = useAtom(wProviderAtom);
   const [rpcProvider, setRPCProvider] = useAtom(rpcProviderAtom);
   const [, setBlockNumber] = useAtom(blockNumberAtom);
+  const [, wSetChainID] = useAtom(wChainIDAtom);
 
   useEffect(() => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     setWProvider(provider);
-  }, [setWProvider]);
+
+    async function getChainID() {
+      await provider.getNetwork().then(({ chainId }) => {
+        wSetChainID(chainId);
+      });
+    }
+    getChainID();
+  }, [setWProvider, wSetChainID]);
 
   useEffect(() => {
     const provider = new ethers.providers.JsonRpcProvider('https://rpc-mainnet.plutotest.network/');
@@ -52,6 +60,12 @@ function App() {
     }
     getBlockNumber();
   }, [rpcProvider, setBlockNumber]);
+
+  useEffect(() => {
+    window.ethereum.on('chainChanged', (_chainID: number) => {
+      wSetChainID(Number(_chainID));
+    });
+  }, [wSetChainID]);
 
   return (
     <div className="App">

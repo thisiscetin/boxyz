@@ -2,7 +2,6 @@ import styled from 'styled-components/macro';
 import { useEffect, useState, useRef } from 'react';
 import { useAtom } from 'jotai';
 import { Contract } from 'ethers';
-import moment from 'moment';
 
 import BoxA from '../../Constants/ABI/Box.json';
 import { wProviderAtom } from '../../store';
@@ -142,8 +141,6 @@ export default function ({ FactoryContract, id }: BoxProps) {
       getSize();
       getOwner();
     }
-
-    console.log(boxContract);
   }, [boxContract]);
 
   return (

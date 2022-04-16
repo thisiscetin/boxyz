@@ -12,7 +12,13 @@ import Inventory from './Pages/Inventory';
 import ChainStatus from './Components/ChainStatus';
 
 import { useAtom } from 'jotai';
-import { wProviderAtom, rpcProviderAtom, blockNumberAtom, wChainIDAtom } from './store';
+import {
+  wProviderAtom,
+  rpcProviderAtom,
+  blockNumberAtom,
+  wChainIDAtom,
+  wSelectedAccountAtom,
+} from './store';
 import { ethers } from 'ethers';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
@@ -31,10 +37,11 @@ declare global {
 }
 
 function App() {
-  const [, setWProvider] = useAtom(wProviderAtom);
+  const [wProvider, setWProvider] = useAtom(wProviderAtom);
   const [rpcProvider, setRPCProvider] = useAtom(rpcProviderAtom);
   const [, setBlockNumber] = useAtom(blockNumberAtom);
   const [wChainId, wSetChainID] = useAtom(wChainIDAtom);
+  const [wSelectedAccount, wSetSelectedAccount] = useAtom(wSelectedAccountAtom);
 
   useEffect(() => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -66,6 +73,17 @@ function App() {
       wSetChainID(Number(_chainID));
     });
   }, [wSetChainID]);
+
+  useEffect(() => {
+    wProvider
+      ?.getSigner()
+      .getAddress()
+      .then((address: string) => wSetSelectedAccount(address));
+
+    window.ethereum.on('accountsChanged', (accounts: string[]) => {
+      wSetSelectedAccount(accounts[0]);
+    });
+  }, [wProvider, wSetSelectedAccount]);
 
   return (
     <div className="App">

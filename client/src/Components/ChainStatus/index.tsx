@@ -23,7 +23,6 @@ export default function () {
   return (
     <Container>
       <Section>
-        connected to&nbsp;
         <a href="https://plutotest.network" target="_blank">
           Pluto Test Network
         </a>

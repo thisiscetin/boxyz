@@ -25,7 +25,6 @@ const Button = styled.button`
 export default function () {
   const [wProvider] = useAtom(wProviderAtom);
   const [contract, setContract] = useState<Contract | null>(null);
-  const [chainID] = useAtom(wChainIDAtom);
 
   useEffect(() => {
     if (wProvider) {
@@ -37,14 +36,6 @@ export default function () {
     return (
       <Container>
         <p>Loading contract.</p>
-      </Container>
-    );
-  }
-
-  if (chainID !== 0x8a) {
-    return (
-      <Container>
-        <p>Please switch Metamask extension to Pluto Test Network. Current chain ID: {chainID}.</p>
       </Container>
     );
   }

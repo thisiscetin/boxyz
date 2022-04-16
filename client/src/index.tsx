@@ -34,7 +34,7 @@ function App() {
   const [, setWProvider] = useAtom(wProviderAtom);
   const [rpcProvider, setRPCProvider] = useAtom(rpcProviderAtom);
   const [, setBlockNumber] = useAtom(blockNumberAtom);
-  const [, wSetChainID] = useAtom(wChainIDAtom);
+  const [wChainId, wSetChainID] = useAtom(wChainIDAtom);
 
   useEffect(() => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -73,12 +73,18 @@ function App() {
         <Navigation />
         <ChainStatus />
 
-        <Routes>
-          <Route path="/" element={<Boxes />} />
-          <Route path="marketplace" element={<Marketplace />} />
-          <Route path="breed" element={<Breed />} />
-          <Route path="inventory" element={<Inventory />} />
-        </Routes>
+        {wChainId === 0x8a ? (
+          <Routes>
+            <Route path="/" element={<Boxes />} />
+            <Route path="marketplace" element={<Marketplace />} />
+            <Route path="breed" element={<Breed />} />
+            <Route path="inventory" element={<Inventory />} />
+          </Routes>
+        ) : (
+          <p>
+            Please switch Metamask extension to Pluto Test Network. Current chain ID: {wChainId}.
+          </p>
+        )}
       </ThemeProvider>
     </div>
   );

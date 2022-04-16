@@ -11,7 +11,8 @@ import { wProviderAtom } from '../../store';
 
 const Container = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
   padding: 0.2rem 0;
 `;
 
@@ -40,13 +41,17 @@ export default function () {
   }, [contract]);
 
   return (
-    <Container>
+    <>
       <Title text={'📦 Boxes'} />
-      {contract
-        ? map(rangeRight(breedCount), (id: number) => (
-            <Box FactoryContract={contract} id={id} key={id} />
-          ))
-        : null}
-    </Container>
+
+      <Container>
+        <br />
+        {contract
+          ? map(rangeRight(breedCount), (id: number) => (
+              <Box FactoryContract={contract} id={id} key={id} />
+            ))
+          : null}
+      </Container>
+    </>
   );
 }

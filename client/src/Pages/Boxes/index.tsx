@@ -19,7 +19,7 @@ type BoxesProps = {
 export default function ({ value: account }: BoxesProps) {
   return (
     <Container>
-      <Title text={'Boxes'} />
+      <Title text={'📦 Boxes'} />
       <p>{account}</p>
     </Container>
   );

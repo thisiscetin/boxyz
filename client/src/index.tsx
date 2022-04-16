@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import { MetaMaskInpageProvider } from '@metamask/providers';
 
 import Navigation from './Components/Navigation';
 import Boxes from './Pages/Boxes';
@@ -10,11 +9,11 @@ import Marketplace from './Pages/Marketplace';
 import Breed from './Pages/Breed';
 import Inventory from './Pages/Inventory';
 
-import { useAtom } from 'jotai';
-import { wProviderAtom, rpcProviderAtom, blockNumber } from './store';
-import { ethers } from 'ethers';
+import ChainStatus from './Components/ChainStatus';
 
-// import Web3Provider from './Components/_Web3Provider';
+import { useAtom } from 'jotai';
+import { wProviderAtom, rpcProviderAtom, blockNumberAtom } from './store';
+import { ethers } from 'ethers';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -34,7 +33,7 @@ declare global {
 function App() {
   const [, setWProvider] = useAtom(wProviderAtom);
   const [rpcProvider, setRPCProvider] = useAtom(rpcProviderAtom);
-  const [bNumber, setBNumber] = useAtom(blockNumber);
+  const [, setBlockNumber] = useAtom(blockNumberAtom);
 
   useEffect(() => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -49,16 +48,17 @@ function App() {
   useEffect(() => {
     async function getBlockNumber() {
       const block = await rpcProvider?.getBlockNumber();
-      setBNumber(block || 0);
+      setBlockNumber(block || 0);
     }
     getBlockNumber();
-  }, [rpcProvider, setBNumber]);
+  }, [rpcProvider, setBlockNumber]);
 
   return (
     <div className="App">
       <ThemeProvider theme={theme}>
         <Navigation />
-        {bNumber ? <p>{bNumber}</p> : null}
+        <ChainStatus />
+
         <Routes>
           <Route path="/" element={<Boxes />} />
           <Route path="marketplace" element={<Marketplace />} />

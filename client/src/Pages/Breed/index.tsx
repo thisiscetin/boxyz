@@ -71,6 +71,8 @@ export default function () {
     <Container>
       <Title text="⛏️ Breed"></Title>
 
+      <p>Breadable boxes of account {wSelectedAccount}</p>
+
       {ownedBoxes.map((boxId) => (
         <span key={boxId}>{boxId}</span>
       ))}

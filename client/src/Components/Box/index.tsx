@@ -8,6 +8,8 @@ import { wProviderAtom } from '../../store';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { map } from 'lodash';
 
+import { Link } from 'react-router-dom';
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -17,6 +19,14 @@ const Container = styled.div`
   background-color: #ffffff;
   color: ${(props) => props.theme.bgdark};
   border-radius: 0.4rem;
+
+  a {
+    color: ${(props) => props.theme.bgdark};
+
+    :hover {
+      color: ${(props) => props.theme.bgdark};
+    }
+  }
 `;
 
 type BoxProps = {
@@ -77,7 +87,6 @@ const Row = styled.p`
   justify-content: space-between;
   margin: 0.3rem;
   font-size: 0.9rem;
-  color: ${(props) => props.theme.bglight};
 `;
 
 const Address = styled.a`
@@ -85,7 +94,6 @@ const Address = styled.a`
   justify-content: space-between;
   margin: 0.3rem;
   font-size: 0.9rem;
-  color: ${(props) => props.theme.bglight};
 `;
 
 export default function ({ FactoryContract, id }: BoxProps) {
@@ -151,47 +159,49 @@ export default function ({ FactoryContract, id }: BoxProps) {
 
   return (
     <Container>
-      {owner ? (
-        <ThreeDContainer>
-          <BoxNumber>#{id}</BoxNumber>
+      <Link to={`/boxes/${id}`}>
+        {owner ? (
+          <ThreeDContainer>
+            <BoxNumber>#{id}</BoxNumber>
 
-          <BoxContainer>
-            <Canvas style={{ backgroundColor: 'white' }}>
-              <ambientLight />
-              <pointLight position={[10, 10, 10]} />
-              <ThreeDBox color={color} size={size} />
-            </Canvas>
-          </BoxContainer>
+            <BoxContainer>
+              <Canvas style={{ backgroundColor: 'white' }}>
+                <ambientLight />
+                <pointLight position={[10, 10, 10]} />
+                <ThreeDBox color={color} size={size} />
+              </Canvas>
+            </BoxContainer>
 
-          <Volume>
-            volume:&nbsp;
-            {Math.round((size[0] * size[1] * size[2]) / 1000000)}
-            &nbsp;xyz
-          </Volume>
+            <Volume>
+              volume:&nbsp;
+              {Math.round((size[0] * size[1] * size[2]) / 1000000)}
+              &nbsp;xyz
+            </Volume>
 
-          <Row>
-            <span>breed count</span>
-            <span>{breedCount}/3</span>
-          </Row>
+            <Row>
+              <span>breed count</span>
+              <span>{breedCount}/3</span>
+            </Row>
 
-          <Row>
-            <span>listed</span>
-            <span>{listed ? 'yes' : 'no'}</span>
-          </Row>
+            <Row>
+              <span>listed</span>
+              <span>{listed ? 'yes' : 'no'}</span>
+            </Row>
 
-          <Address href={`https://explorer.plutotest.network/address/${box}`} target="_blank">
-            <span>address</span>
-            <span>{box.substring(0, 14)}...</span>
-          </Address>
+            <Row>
+              <span>address</span>
+              <span>{box.substring(0, 14)}...</span>
+            </Row>
 
-          <Address href={`https://explorer.plutotest.network/address/${owner}`} target="_blank">
-            <span>owner</span>
-            <span>{owner.substring(0, 14)}...</span>
-          </Address>
-        </ThreeDContainer>
-      ) : (
-        <p>Loading...</p>
-      )}
+            <Row>
+              <span>owner</span>
+              <span>{owner.substring(0, 14)}...</span>
+            </Row>
+          </ThreeDContainer>
+        ) : (
+          <p>Loading...</p>
+        )}
+      </Link>
     </Container>
   );
 }

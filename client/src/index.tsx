@@ -8,6 +8,7 @@ import Boxes from './Pages/Boxes';
 import Marketplace from './Pages/Marketplace';
 import Breed from './Pages/Breed';
 import Inventory from './Pages/Inventory';
+import Box from './Pages/Box';
 
 import ChainStatus from './Components/ChainStatus';
 
@@ -97,6 +98,7 @@ function App() {
             <Route path="marketplace" element={<Marketplace />} />
             <Route path="breed" element={<Breed />} />
             <Route path="inventory" element={<Inventory />} />
+            <Route path="boxes/:boxId" element={<Box />} />
           </Routes>
         ) : (
           <p>

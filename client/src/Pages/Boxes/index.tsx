@@ -21,7 +21,7 @@ const cAddress = '0x58c43BF186587DdAc17200A498F4c48E1C382E4e';
 export default function () {
   const [wProvider] = useAtom(wProviderAtom);
   const [contract, setContract] = useState<Contract | null>(null);
-  const [breedCount, setBreedCount] = useState(0);
+  const [mintCount, setMintCount] = useState(0);
 
   useEffect(() => {
     if (wProvider) {
@@ -30,13 +30,13 @@ export default function () {
   }, [wProvider]);
 
   useEffect(() => {
-    async function getBreedCount() {
+    async function getMintCount() {
       const count = Number(await contract?.counter());
-      setBreedCount(count);
+      setMintCount(count);
     }
 
     if (contract) {
-      getBreedCount();
+      getMintCount();
     }
   }, [contract]);
 
@@ -44,12 +44,12 @@ export default function () {
     <>
       <Title text={'📦 Boxes'} />
 
-      <p>Boxes already minted from any account.</p>
+      <p>Minted boxes from any account.</p>
 
       <Container>
         <br />
         {contract
-          ? map(rangeRight(breedCount), (id: number) => (
+          ? map(rangeRight(mintCount), (id: number) => (
               <Box FactoryContract={contract} id={id} key={id} />
             ))
           : null}

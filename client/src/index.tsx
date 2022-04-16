@@ -41,7 +41,7 @@ function App() {
   const [rpcProvider, setRPCProvider] = useAtom(rpcProviderAtom);
   const [, setBlockNumber] = useAtom(blockNumberAtom);
   const [wChainId, wSetChainID] = useAtom(wChainIDAtom);
-  const [wSelectedAccount, wSetSelectedAccount] = useAtom(wSelectedAccountAtom);
+  const [, wSetSelectedAccount] = useAtom(wSelectedAccountAtom);
 
   useEffect(() => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);

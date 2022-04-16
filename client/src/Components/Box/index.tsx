@@ -97,6 +97,7 @@ export default function ({ FactoryContract, id }: BoxProps) {
   const [size, setSize] = useState([0, 0, 0]);
   const [owner, setOwner] = useState<string>('');
   const [breedCount, setBreedCount] = useState(0);
+  const [listed, setListed] = useState(false);
 
   useEffect(() => {
     async function getBox() {
@@ -135,11 +136,16 @@ export default function ({ FactoryContract, id }: BoxProps) {
       const o = await boxContract?.owner();
       setOwner(o);
     }
+    async function getListed() {
+      const ls = await boxContract?.listed();
+      setListed(ls);
+    }
 
     if (boxContract) {
       getColor();
       getSize();
       getOwner();
+      getListed();
     }
   }, [boxContract]);
 
@@ -166,6 +172,11 @@ export default function ({ FactoryContract, id }: BoxProps) {
           <Row>
             <span>breed count</span>
             <span>{breedCount}/3</span>
+          </Row>
+
+          <Row>
+            <span>listed</span>
+            <span>{listed ? 'yes' : 'no'}</span>
           </Row>
 
           <Address href={`https://explorer.plutotest.network/address/${box}`} target="_blank">

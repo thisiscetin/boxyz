@@ -44,6 +44,8 @@ export default function () {
     <>
       <Title text={'📦 Boxes'} />
 
+      <p>Boxes already minted from any account.</p>
+
       <Container>
         <br />
         {contract

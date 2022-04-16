@@ -15,6 +15,13 @@ const Container = styled.div`
   padding: 0.2rem 0;
 `;
 
+const Button = styled.button`
+  background-color: ${(props) => props.theme.primary};
+  width: 10rem;
+  padding: 0.6rem;
+  margin: 0.6rem 0;
+`;
+
 export default function () {
   const [wProvider] = useAtom(wProviderAtom);
   const [contract, setContract] = useState<Contract | null>(null);
@@ -22,7 +29,7 @@ export default function () {
 
   useEffect(() => {
     if (wProvider) {
-      setContract(new Contract(cAddress, BoxFactory.abi, wProvider));
+      setContract(new Contract(cAddress, BoxFactory.abi, wProvider.getSigner()));
     }
   }, [wProvider]);
 
@@ -42,10 +49,20 @@ export default function () {
     );
   }
 
+  const create = async () => {
+    try {
+      const { hash } = await contract.create();
+      console.log(hash);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <Container>
       <Title text="⛏️ Breed"></Title>
-      {chainID}
+
+      <Button onClick={create}>Create Box</Button>
     </Container>
   );
 }

@@ -1,0 +1,13 @@
+{
+    "name": "boxyz",
+    "todos": [
+        {
+            "done": false,
+            "title": "limit webgl items to 15 per page"
+        },
+        {
+            "done": false,
+            "title": "add price and sales details to box object"
+        }
+    ]
+}

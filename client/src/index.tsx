@@ -10,6 +10,9 @@ import Breed from './Pages/Breed';
 import Inventory from './Pages/Inventory';
 import Box from './Pages/Box';
 
+import { Contract, ethers } from 'ethers';
+import BoxFactory from '../src/Constants/ABI/BoxFactory.json';
+
 import ChainStatus from './Components/ChainStatus';
 
 import { useAtom } from 'jotai';
@@ -19,8 +22,9 @@ import {
   blockNumberAtom,
   wChainIDAtom,
   wSelectedAccountAtom,
+  factoryContractAtom,
 } from './store';
-import { ethers } from 'ethers';
+import { BoxFactoryAddress } from './Constants/address';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
@@ -43,6 +47,7 @@ function App() {
   const [, setBlockNumber] = useAtom(blockNumberAtom);
   const [wChainId, wSetChainID] = useAtom(wChainIDAtom);
   const [, wSetSelectedAccount] = useAtom(wSelectedAccountAtom);
+  const [, setFactoryContract] = useAtom(factoryContractAtom);
 
   useEffect(() => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -85,6 +90,12 @@ function App() {
       wSetSelectedAccount(accounts[0]);
     });
   }, [wProvider, wSetSelectedAccount]);
+
+  useEffect(() => {
+    if (wProvider) {
+      setFactoryContract(new Contract(BoxFactoryAddress, BoxFactory.abi, wProvider.getSigner()));
+    }
+  }, [wProvider, setFactoryContract]);
 
   return (
     <div className="App">

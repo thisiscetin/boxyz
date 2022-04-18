@@ -1,11 +1,9 @@
 import styled from 'styled-components/macro';
 import { useState, useEffect } from 'react';
 import { useAtom } from 'jotai';
-import { Contract } from 'ethers';
 import { map } from 'lodash';
 
-import { wProviderAtom, wSelectedAccountAtom } from '../../store';
-import BoxFactory from '../../Constants/ABI/BoxFactory.json';
+import { factoryContractAtom, wSelectedAccountAtom } from '../../store';
 import Title from '../../Components/Title';
 import Box from '../../Components/Box';
 
@@ -16,20 +14,10 @@ const Container = styled.div`
   padding: 0.2rem 0;
 `;
 
-const cAddress = '0x58c43BF186587DdAc17200A498F4c48E1C382E4e';
-
 export default function () {
-  const [wProvider] = useAtom(wProviderAtom);
-
   const [selectedAccount] = useAtom(wSelectedAccountAtom);
-  const [factoryContract, setFactoryContract] = useState<Contract | null>(null);
+  const [factoryContract] = useAtom(factoryContractAtom);
   const [ownedBoxes, setOwnedBoxes] = useState<number[]>([]);
-
-  useEffect(() => {
-    if (wProvider) {
-      setFactoryContract(new Contract(cAddress, BoxFactory.abi, wProvider.getSigner()));
-    }
-  }, [wProvider]);
 
   useEffect(() => {
     async function getOwnedBoxes() {

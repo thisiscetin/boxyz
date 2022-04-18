@@ -1,16 +1,13 @@
 import styled from 'styled-components/macro';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { wProviderAtom, wSelectedAccountAtom } from '../../store';
+import { wProviderAtom, factoryContractAtom } from '../../store';
 import { useAtom } from 'jotai';
 import { Contract, utils } from 'ethers';
 
-import BoxFactory from '../../Constants/ABI/BoxFactory.json';
 import BoxABI from '../../Constants/ABI/Box.json';
 import Box from '../../Components/Box';
 import Title from '../../Components/Title';
-
-const cAddress = '0x58c43BF186587DdAc17200A498F4c48E1C382E4e';
 
 const Container = styled.div`
   display: flex;
@@ -64,17 +61,11 @@ const Button = styled.button`
 export default function () {
   const [wProvider] = useAtom(wProviderAtom);
   const { boxId } = useParams();
-  const [factoryContract, setFactoryContract] = useState<Contract | null>(null);
+  const [factoryContract] = useAtom(factoryContractAtom);
   const [boxContract, setBoxContract] = useState<Contract | null>(null);
   const [listingPrice, setListingPrice] = useState<string>('');
 
   const [listed, setListed] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (wProvider) {
-      setFactoryContract(new Contract(cAddress, BoxFactory.abi, wProvider.getSigner()));
-    }
-  }, [wProvider]);
 
   useEffect(() => {
     async function getBoxContract() {

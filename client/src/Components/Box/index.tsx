@@ -74,6 +74,13 @@ const BoxNumber = styled.p`
   font-family: 'PaytoneOne';
   font-size: 1.4rem;
   margin: 0rem;
+  text-decoration: underline;
+  transition: 0.2s;
+  color: ${(props) => props.theme.bgdark};
+
+  :hover {
+    color: ${(props) => props.theme.bglight};
+  }
 `;
 
 const Volume = styled.p`
@@ -82,7 +89,7 @@ const Volume = styled.p`
   font-size: 0.9rem;
 `;
 
-const Row = styled.p`
+const Row = styled.span`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
@@ -93,6 +100,22 @@ const Row = styled.p`
 const Price = styled.span`
   font-family: 'PaytoneOne';
   font-size: 1rem;
+`;
+
+const Button = styled.button`
+  font-family: 'RobotoBold';
+  font-size: 1rem;
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 0.4rem;
+  background-color: ${(props) => props.theme.bgdark};
+  transition: 0.2s;
+  cursor: pointer;
+  color: white;
+
+  :hover {
+    background-color: ${(props) => props.theme.bglight};
+  }
 `;
 
 export default function ({ FactoryContract, id }: BoxProps) {
@@ -162,51 +185,65 @@ export default function ({ FactoryContract, id }: BoxProps) {
     }
   }, [boxContract]);
 
+  const buy = () => {
+    async function buyBox() {
+      await boxContract?.buy({ value: utils.parseEther(price?.toString()) });
+    }
+
+    buyBox();
+  };
+
   return (
     <Container>
-      <Link to={`/boxes/${id}`}>
-        {owner ? (
-          <ThreeDContainer>
+      {owner ? (
+        <ThreeDContainer>
+          <Link to={`/boxes/${id}`}>
             <Row>
               <BoxNumber>#{id}</BoxNumber>
               {listed ? <Price>{price} ETH</Price> : 'not listed'}
             </Row>
+          </Link>
 
-            <BoxContainer>
-              <Canvas style={{ backgroundColor: 'white' }}>
-                <ambientLight />
-                <pointLight position={[10, 10, 10]} />
-                <ThreeDBox color={color} size={size} />
-              </Canvas>
-            </BoxContainer>
+          <BoxContainer>
+            <Canvas style={{ backgroundColor: 'white' }}>
+              <ambientLight />
+              <pointLight position={[10, 10, 10]} />
+              <ThreeDBox color={color} size={size} />
+            </Canvas>
+          </BoxContainer>
 
-            <Volume>
-              volume:&nbsp;
-              {Math.round((size[0] * size[1] * size[2]) / 1000000)}
-              &nbsp;xyz
-            </Volume>
+          <Volume>
+            volume:&nbsp;
+            {Math.round((size[0] * size[1] * size[2]) / 1000000)}
+            &nbsp;xyz
+          </Volume>
 
-            <Row>
-              <span>breed count</span>
+          <Row>
+            <span>breed count</span>
+            {breedCount == 3 ? (
+              <span style={{ color: 'red' }}>{breedCount}/3</span>
+            ) : (
               <span>{breedCount}/3</span>
-            </Row>
+            )}
+          </Row>
 
-            <Row>
-              <span>address</span>
-              <span>{box.substring(0, 14)}...</span>
-            </Row>
+          <Row>
+            <span>address</span>
+            <span>{box.substring(0, 14)}...</span>
+          </Row>
 
-            <Row>
-              <span>owner</span>
-              <span>{owner.substring(0, 14)}...</span>
-            </Row>
+          <Row>
+            <span>owner</span>
+            <span>{owner.substring(0, 14)}...</span>
+          </Row>
 
-            <br />
-          </ThreeDContainer>
-        ) : (
-          <p>Loading...</p>
-        )}
-      </Link>
+          <br />
+
+          {listed ? <Button onClick={buy}>Buy thix box</Button> : null}
+        </ThreeDContainer>
+      ) : (
+        <p>Loading...</p>
+      )}
     </Container>
   );
 }

@@ -10,6 +10,8 @@ import { map } from 'lodash';
 
 import { Link } from 'react-router-dom';
 
+import Button from '../Button';
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -32,6 +34,7 @@ const Container = styled.div`
 type BoxProps = {
   FactoryContract: Contract;
   id: number;
+  hideBuyButton?: boolean;
 };
 
 type ThreeDBoxProps = {
@@ -99,26 +102,11 @@ const Row = styled.span`
 
 const Price = styled.span`
   font-family: 'PaytoneOne';
-  font-size: 1rem;
+  font-size: 1.1rem;
+  color: red;
 `;
 
-const Button = styled.button`
-  font-family: 'RobotoBold';
-  font-size: 1rem;
-  padding: 0.6rem 1rem;
-  border: none;
-  border-radius: 0.4rem;
-  background-color: ${(props) => props.theme.bgdark};
-  transition: 0.2s;
-  cursor: pointer;
-  color: white;
-
-  :hover {
-    background-color: ${(props) => props.theme.bglight};
-  }
-`;
-
-export default function ({ FactoryContract, id }: BoxProps) {
+export default function ({ FactoryContract, id, hideBuyButton }: BoxProps) {
   const [wProvider] = useAtom(wProviderAtom);
   const [box, setBox] = useState<string>('');
   const [boxContract, setBoxContract] = useState<Contract | null>(null);
@@ -199,8 +187,8 @@ export default function ({ FactoryContract, id }: BoxProps) {
         <ThreeDContainer>
           <Link to={`/boxes/${id}`}>
             <Row>
-              <BoxNumber>#{id}</BoxNumber>
               {listed ? <Price>{price} ETH</Price> : 'not listed'}
+              <BoxNumber>#{id}</BoxNumber>
             </Row>
           </Link>
 
@@ -237,9 +225,7 @@ export default function ({ FactoryContract, id }: BoxProps) {
             <span>{owner.substring(0, 14)}...</span>
           </Row>
 
-          <br />
-
-          {listed ? <Button onClick={buy}>Buy thix box</Button> : null}
+          {listed && !hideBuyButton ? <Button onClick={buy}>buy</Button> : null}
         </ThreeDContainer>
       ) : (
         <p>Loading...</p>

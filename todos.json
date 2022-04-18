@@ -2,12 +2,20 @@
     "name": "boxyz",
     "todos": [
         {
-            "done": false,
+            "done": true,
             "title": "limit webgl items to 15 per page"
         },
         {
-            "done": false,
+            "done": true,
             "title": "add price and sales details to box object"
+        },
+        {
+            "done": false,
+            "title": "add pagination to boxes page"
+        },
+        {
+            "done": false,
+            "title": "prevent on sale boxes to be breed"
         }
     ]
 }

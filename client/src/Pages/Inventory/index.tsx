@@ -34,13 +34,13 @@ export default function () {
     <>
       <Title text="🔗 Inventory" />
 
-      <p>Boxes for account: {selectedAccount}</p>
+      <p>Boxes you own.</p>
 
       <Container>
         <br />
         {factoryContract
           ? map(ownedBoxes, (id: number) => (
-              <Box FactoryContract={factoryContract} id={id} key={id} />
+              <Box FactoryContract={factoryContract} hideBuyButton id={id} key={id} />
             ))
           : null}
       </Container>

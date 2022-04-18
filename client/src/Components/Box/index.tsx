@@ -191,42 +191,49 @@ export default function ({ FactoryContract, id, hideBuyButton }: BoxProps) {
               {listed ? <Price>{price} ETH</Price> : 'not listed'}
               <BoxNumber>#{id}</BoxNumber>
             </Row>
-          </Link>
 
-          <BoxContainer>
-            <Canvas style={{ backgroundColor: 'white' }}>
-              <ambientLight />
-              <pointLight position={[10, 10, 10]} />
-              <ThreeDBox color={color} size={size} />
-            </Canvas>
-          </BoxContainer>
+            <BoxContainer>
+              <Canvas style={{ backgroundColor: 'white' }}>
+                <ambientLight />
+                <pointLight position={[10, 10, 10]} />
+                <ThreeDBox color={color} size={size} />
+              </Canvas>
+            </BoxContainer>
+          </Link>
 
           <Volume>
             volume:&nbsp;
             {Math.round((size[0] * size[1] * size[2]) / 1000000)}
             &nbsp;xyz
           </Volume>
+          {id !== 0 ? (
+            <>
+              <Row>
+                <span>breed count</span>
+                {breedCount == 3 ? (
+                  <span style={{ color: 'red' }}>{breedCount}/3</span>
+                ) : (
+                  <span>{breedCount}/3</span>
+                )}
+              </Row>
 
-          <Row>
-            <span>breed count</span>
-            {breedCount == 3 ? (
-              <span style={{ color: 'red' }}>{breedCount}/3</span>
-            ) : (
-              <span>{breedCount}/3</span>
-            )}
-          </Row>
+              <Row>
+                <span>address</span>
+                <span>{box.substring(0, 14)}...</span>
+              </Row>
 
-          <Row>
-            <span>address</span>
-            <span>{box.substring(0, 14)}...</span>
-          </Row>
+              <Row>
+                <span>owner</span>
+                <span>{owner.substring(0, 14)}...</span>
+              </Row>
 
-          <Row>
-            <span>owner</span>
-            <span>{owner.substring(0, 14)}...</span>
-          </Row>
-
-          {listed && !hideBuyButton ? <Button onClick={buy}>buy</Button> : null}
+              {listed && !hideBuyButton ? <Button onClick={buy}>buy</Button> : null}
+            </>
+          ) : (
+            <Row>
+              <span>Genesis box.</span>
+            </Row>
+          )}
         </ThreeDContainer>
       ) : (
         <Spinner />

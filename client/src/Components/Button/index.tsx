@@ -2,6 +2,7 @@ import styled from 'styled-components/macro';
 
 const Button = styled.button`
   margin-top: 1rem;
+  margin-right: 0.6rem;
   font-family: 'RobotoBold';
   font-size: 1rem;
   padding: 0.6rem 1rem;
@@ -15,6 +16,10 @@ const Button = styled.button`
 
   :hover {
     background-color: ${(props) => props.theme.bglight};
+  }
+
+  :disabled {
+    background-color: ${(props) => props.theme.secondary};
   }
 `;
 

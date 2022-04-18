@@ -34,7 +34,7 @@ export default function () {
     <>
       <Title text="🔗 Inventory" />
 
-      <p>Boxes you own.</p>
+      {ownedBoxes.length === 0 ? <p>You have no boxes yet.</p> : <p>Boxes you own.</p>}
 
       <Container>
         <br />

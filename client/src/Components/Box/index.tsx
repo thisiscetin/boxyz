@@ -11,6 +11,7 @@ import { map } from 'lodash';
 import { Link } from 'react-router-dom';
 
 import Button from '../Button';
+import Spinner from '../Spinner';
 
 const Container = styled.div`
   display: flex;
@@ -183,7 +184,7 @@ export default function ({ FactoryContract, id, hideBuyButton }: BoxProps) {
 
   return (
     <Container>
-      {owner ? (
+      {owner !== '' ? (
         <ThreeDContainer>
           <Link to={`/boxes/${id}`}>
             <Row>
@@ -228,7 +229,7 @@ export default function ({ FactoryContract, id, hideBuyButton }: BoxProps) {
           {listed && !hideBuyButton ? <Button onClick={buy}>buy</Button> : null}
         </ThreeDContainer>
       ) : (
-        <p>Loading...</p>
+        <Spinner />
       )}
     </Container>
   );

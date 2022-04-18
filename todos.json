@@ -16,6 +16,18 @@
         {
             "done": false,
             "title": "prevent on sale boxes to be breed"
+        },
+        {
+            "done": false,
+            "title": "prevent seller to buy his box"
+        },
+        {
+            "done": false,
+            "title": "change parents from address to id"
+        },
+        {
+            "done": false,
+            "title": "handle errors with contract interactions"
         }
     ]
 }

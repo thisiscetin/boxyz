@@ -80,8 +80,6 @@ export default function () {
     );
   }
 
-  console.log(p1, p2);
-
   return (
     <Container>
       <Title text="⛏️ Breed"></Title>

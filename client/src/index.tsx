@@ -5,7 +5,6 @@ import { ThemeProvider } from 'styled-components';
 
 import Navigation from './Components/Navigation';
 import Boxes from './Pages/Boxes';
-import Marketplace from './Pages/Marketplace';
 import Breed from './Pages/Breed';
 import Inventory from './Pages/Inventory';
 import Box from './Pages/Box';
@@ -106,7 +105,6 @@ function App() {
         {wChainId === 0x8a ? (
           <Routes>
             <Route path="/" element={<Boxes />} />
-            <Route path="marketplace" element={<Marketplace />} />
             <Route path="breed" element={<Breed />} />
             <Route path="inventory" element={<Inventory />} />
             <Route path="boxes/:boxId" element={<Box />} />

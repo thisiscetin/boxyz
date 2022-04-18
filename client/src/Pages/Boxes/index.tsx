@@ -33,7 +33,7 @@ export default function () {
     <>
       <Title text={'📦 Boxes'} />
 
-      <p>Minted boxes from any account.</p>
+      <p>Last 15 boxes minted.</p>
 
       <Container>
         <br />

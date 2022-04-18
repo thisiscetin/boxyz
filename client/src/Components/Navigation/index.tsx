@@ -73,14 +73,6 @@ export default function () {
 
       <Section pos={'center'}>
         <NavItem>
-          <Link to="/marketplace">
-            <LinkText icon={'🏪'} text={'MARKETPLACE'} />
-          </Link>
-        </NavItem>
-      </Section>
-
-      <Section pos={'center'}>
-        <NavItem>
           <Link to="/breed">
             <LinkText icon={'⛏️'} text={'BREED'} />
           </Link>

@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
 import { useEffect, useState, useRef } from 'react';
 import { useAtom } from 'jotai';
-import { Contract } from 'ethers';
+import { Contract, utils } from 'ethers';
 
 import BoxA from '../../Constants/ABI/Box.json';
 import { wProviderAtom } from '../../store';
@@ -73,7 +73,7 @@ const BoxContainer = styled.div`
 const BoxNumber = styled.p`
   font-family: 'PaytoneOne';
   font-size: 1.4rem;
-  margin: 0.3rem;
+  margin: 0rem;
 `;
 
 const Volume = styled.p`
@@ -85,15 +85,14 @@ const Volume = styled.p`
 const Row = styled.p`
   display: flex;
   justify-content: space-between;
+  align-items: flex-end;
   margin: 0.3rem;
   font-size: 0.9rem;
 `;
 
-const Address = styled.a`
-  display: flex;
-  justify-content: space-between;
-  margin: 0.3rem;
-  font-size: 0.9rem;
+const Price = styled.span`
+  font-family: 'PaytoneOne';
+  font-size: 1rem;
 `;
 
 export default function ({ FactoryContract, id }: BoxProps) {
@@ -106,6 +105,7 @@ export default function ({ FactoryContract, id }: BoxProps) {
   const [owner, setOwner] = useState<string>('');
   const [breedCount, setBreedCount] = useState(0);
   const [listed, setListed] = useState(false);
+  const [price, setPrice] = useState(0);
 
   useEffect(() => {
     async function getBox() {
@@ -148,12 +148,17 @@ export default function ({ FactoryContract, id }: BoxProps) {
       const ls = await boxContract?.listed();
       setListed(ls);
     }
+    async function getPrice() {
+      const pr = await boxContract?.price();
+      setPrice(Number(utils.formatEther(pr)));
+    }
 
     if (boxContract) {
       getColor();
       getSize();
       getOwner();
       getListed();
+      getPrice();
     }
   }, [boxContract]);
 
@@ -162,7 +167,10 @@ export default function ({ FactoryContract, id }: BoxProps) {
       <Link to={`/boxes/${id}`}>
         {owner ? (
           <ThreeDContainer>
-            <BoxNumber>#{id}</BoxNumber>
+            <Row>
+              <BoxNumber>#{id}</BoxNumber>
+              {listed ? <Price>{price} ETH</Price> : 'not listed'}
+            </Row>
 
             <BoxContainer>
               <Canvas style={{ backgroundColor: 'white' }}>
@@ -184,11 +192,6 @@ export default function ({ FactoryContract, id }: BoxProps) {
             </Row>
 
             <Row>
-              <span>listed</span>
-              <span>{listed ? 'yes' : 'no'}</span>
-            </Row>
-
-            <Row>
               <span>address</span>
               <span>{box.substring(0, 14)}...</span>
             </Row>
@@ -197,6 +200,8 @@ export default function ({ FactoryContract, id }: BoxProps) {
               <span>owner</span>
               <span>{owner.substring(0, 14)}...</span>
             </Row>
+
+            <br />
           </ThreeDContainer>
         ) : (
           <p>Loading...</p>

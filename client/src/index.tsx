@@ -55,9 +55,13 @@ function App() {
   const [rpcProvider, setRPCProvider] = useAtom(rpcProviderAtom);
   const [, setBlockNumber] = useAtom(blockNumberAtom);
   const [wChainId, wSetChainID] = useAtom(wChainIDAtom);
-  const [, wSetSelectedAccount] = useAtom(wSelectedAccountAtom);
+  const [wSelectedAccount, wSetSelectedAccount] = useAtom(wSelectedAccountAtom);
   const [, setFactoryContract] = useAtom(factoryContractAtom);
   const [transactionInProgress] = useAtom(transactionInProgressAtom);
+
+  useEffect(() => {
+    window.ethereum.request({ method: 'eth_requestAccounts' });
+  }, []);
 
   useEffect(() => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -99,6 +103,7 @@ function App() {
 
     window.ethereum.on('accountsChanged', (accounts: string[]) => {
       wSetSelectedAccount(accounts[0]);
+      window.location.reload();
     });
   }, [wProvider, wSetSelectedAccount]);
 
@@ -116,7 +121,7 @@ function App() {
 
         {transactionInProgress && <TxInProgress />}
 
-        {wChainId === 0x8a ? (
+        {wChainId === 0x8a && wSelectedAccount !== '' ? (
           <Routes>
             <Route path="/" element={<Boxes />} />
             <Route path="breed" element={<Breed />} />
@@ -126,7 +131,8 @@ function App() {
         ) : (
           <>
             <p>
-              Please switch Metamask extension to Pluto Test Network. Current chain ID: {wChainId}.
+              Please switch Metamask extension to Pluto Test Network and connect your account.
+              Current chain ID: {wChainId}.
             </p>
 
             <p>

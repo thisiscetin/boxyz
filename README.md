@@ -4,18 +4,16 @@ I know it sounds strange, but maybe these boxes can breed and have children. The
 
 ## What is boxyz?
 
-boxyz is a blockchain game where you can own boxes in different colors and sizes, breed them, and mint new boxes in ERC-721 standard. Boxes are cute, colorful NFTs.
+boxyz is a blockchain breeding and trading platform where you can own boxes in different colors and sizes, breed them, and mint new boxes. Boxes are cute, colorful NFTs.
 
 ## Where it is deployed?
 
-The first target is to deploy boxyz to [Pluto test network](https://plutotest.network/). After that, it should be deployable to any EVM compatible blockchain.
+It is deployed to [Pluto test network](https://plutotest.network/). It is deployable to any EVM compatible blockchain.
 
-## Roadmap
+## What does it look like?
 
-- [ ] Box and BoxFactory contracts to generate ERC-721 tokens.
-- [ ] Client support for breeding and listing NFTs.
-- [ ] Marketplace contracts for trading boxes.
-- [ ] Client support for marketplace.
+If you navigate to [boxyz](https://boxyz.com), you can see some boxes are minted and breeded already. You can get free test ETH from [Pluto test network](https://plutotest.network/), buy two boxes, breed and trade them.
+
 
 ## ![#69D2E7](https://via.placeholder.com/15/69D2E7/000000?text=+) boxyz properties
 

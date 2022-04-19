@@ -9,7 +9,7 @@ const InProgress = styled.div`
   height: 100%;
   width: 100%;
   display: flex;
-  background-color: white;
+  background-color: ${(props) => props.theme.primary};
   opacity: 0.7;
   z-index: 1;
   align-items: center;

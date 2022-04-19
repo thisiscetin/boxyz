@@ -8,10 +8,10 @@ const Button = styled.button`
   padding: 0.6rem 1rem;
   border: none;
   border-radius: 0.4rem;
-  background-color: red;
+  background-color: ${(props) => props.theme.red};
   transition: 0.2s;
   cursor: pointer;
-  color: white;
+  color: ${(props) => props.theme.primary};
   max-width: 12rem;
 
   :hover {

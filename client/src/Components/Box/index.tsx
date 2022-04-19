@@ -4,7 +4,7 @@ import { useAtom } from 'jotai';
 import { Contract, utils } from 'ethers';
 
 import BoxA from '../../Constants/ABI/Box.json';
-import { wProviderAtom, wSelectedAccountAtom } from '../../store';
+import { wProviderAtom, wSelectedAccountAtom, transactionInProgressAtom } from '../../store';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { map } from 'lodash';
 
@@ -104,7 +104,7 @@ const Row = styled.span`
 const Price = styled.span`
   font-family: 'PaytoneOne';
   font-size: 1.1rem;
-  color: red;
+  color: ${(props) => props.theme.red};
 `;
 
 export default function ({ FactoryContract, id, hideBuyButton }: BoxProps) {
@@ -121,6 +121,7 @@ export default function ({ FactoryContract, id, hideBuyButton }: BoxProps) {
   const [price, setPrice] = useState(0);
 
   const [hideBuy, setHideBuy] = useState(true);
+  const [, setTransactionInProgress] = useAtom(transactionInProgressAtom);
 
   useEffect(() => {
     async function getBox() {
@@ -147,8 +148,8 @@ export default function ({ FactoryContract, id, hideBuyButton }: BoxProps) {
   }, [FactoryContract, id]);
 
   useEffect(() => {
-    setHideBuy(hideBuyButton || wSelectedAccount.toLowerCase() === owner.toLowerCase());
-  }, [wSelectedAccount, owner, hideBuyButton]);
+    setHideBuy(hideBuyButton || wSelectedAccount.toLowerCase() === owner.toLowerCase() || !listed);
+  }, [wSelectedAccount, listed, owner, hideBuyButton]);
 
   useEffect(() => {
     async function getColor() {
@@ -183,9 +184,19 @@ export default function ({ FactoryContract, id, hideBuyButton }: BoxProps) {
 
   const buy = () => {
     async function buyBox() {
-      await boxContract?.buy({ value: utils.parseEther(price?.toString()) });
+      setTransactionInProgress(true);
+      try {
+        await boxContract?.buy({ value: utils.parseEther(price?.toString()) });
+      } catch (err: any) {
+        const code: number = err?.code;
+        if (code === 4001) {
+          alert(err.message);
+        } else if (code === -32603) {
+          alert(err.data.message);
+        }
+      }
+      setTransactionInProgress(false);
     }
-
     buyBox();
   };
 

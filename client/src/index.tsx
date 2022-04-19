@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import styled from 'styled-components/macro';
 import ReactDOM from 'react-dom/client';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
@@ -34,6 +35,8 @@ const theme = {
   bglight: '#0f92cf',
   primary: '#FFFFFF',
   secondary: '#D2D2D2',
+  orange: '#FBB829',
+  red: '#FE2800',
 };
 
 declare global {
@@ -41,6 +44,11 @@ declare global {
     ethereum: any;
   }
 }
+
+const PlutoLink = styled.a`
+  color: ${(props) => props.theme.orange};
+  text-decoration: underline;
+`;
 
 function App() {
   const [wProvider, setWProvider] = useAtom(wProviderAtom);
@@ -79,6 +87,7 @@ function App() {
   useEffect(() => {
     window.ethereum.on('chainChanged', (_chainID: number) => {
       wSetChainID(Number(_chainID));
+      window.location.reload();
     });
   }, [wSetChainID]);
 
@@ -115,9 +124,20 @@ function App() {
             <Route path="boxes/:boxId" element={<Box />} />
           </Routes>
         ) : (
-          <p>
-            Please switch Metamask extension to Pluto Test Network. Current chain ID: {wChainId}.
-          </p>
+          <>
+            <p>
+              Please switch Metamask extension to Pluto Test Network. Current chain ID: {wChainId}.
+            </p>
+
+            <p>
+              You can find how to add Pluto Test Network to your Metamask and get free test ether
+              from &nbsp;
+              <PlutoLink href="https://plutotest.network/" target="_blank">
+                https://plutotest.network/
+              </PlutoLink>
+              .
+            </p>
+          </>
         )}
       </ThemeProvider>
     </div>

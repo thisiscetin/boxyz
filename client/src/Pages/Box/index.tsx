@@ -193,7 +193,7 @@ export default function () {
         </BoxContainer>
       ) : null}
 
-      {owner === wSelectedAccount ? (
+      {owner.toLowerCase() === wSelectedAccount.toLocaleLowerCase() ? (
         <ActionBar>
           <SectionTitle>Put on sale</SectionTitle>
 

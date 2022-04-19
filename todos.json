@@ -26,7 +26,7 @@
             "title": "change parents from address to id"
         },
         {
-            "done": false,
+            "done": true,
             "title": "handle errors with contract interactions"
         },
         {

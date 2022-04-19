@@ -1,6 +1,8 @@
 # 📦 boxyz 
 
-I know it sounds strange, but maybe these boxes can breed and have children. They can be sold as well.
+I know it sounds strange, but maybe these boxes can breed and have children. They can be sold as well. Reachable over [boxyz website](https://boxyz.com) .
+
+![boxyz preview](https://ipfs.plutotest.network/ipfs/QmSrybACUVXy4gFfj7kxewZCcKn1BDSqLKujPo2i6Bssag "boxyz homepage")
 
 ## What is boxyz?
 
@@ -12,7 +14,7 @@ It is deployed to [Pluto test network](https://plutotest.network/). It is deploy
 
 ## What does it look like?
 
-If you navigate to [boxyz](https://boxyz.com), you can see some boxes are minted and breeded already. You can get free test ETH from [Pluto test network](https://plutotest.network/), buy two boxes, breed and trade them.
+If you navigate to [boxyz website](https://boxyz.com), you can see some boxes are minted and breeded already. You can get free test ETH from [Pluto test network](https://plutotest.network/), buy two boxes, breed and trade them.
 
 
 ## ![#69D2E7](https://via.placeholder.com/15/69D2E7/000000?text=+) boxyz properties

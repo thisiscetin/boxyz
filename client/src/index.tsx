@@ -8,6 +8,7 @@ import Boxes from './Pages/Boxes';
 import Breed from './Pages/Breed';
 import Inventory from './Pages/Inventory';
 import Box from './Pages/Box';
+import TxInProgress from './Components/TxInProgress';
 
 import { Contract, ethers } from 'ethers';
 import BoxFactory from '../src/Constants/ABI/BoxFactory.json';
@@ -22,6 +23,7 @@ import {
   wChainIDAtom,
   wSelectedAccountAtom,
   factoryContractAtom,
+  transactionInProgressAtom,
 } from './store';
 import { BoxFactoryAddress } from './Constants/address';
 
@@ -47,6 +49,7 @@ function App() {
   const [wChainId, wSetChainID] = useAtom(wChainIDAtom);
   const [, wSetSelectedAccount] = useAtom(wSelectedAccountAtom);
   const [, setFactoryContract] = useAtom(factoryContractAtom);
+  const [transactionInProgress] = useAtom(transactionInProgressAtom);
 
   useEffect(() => {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -101,6 +104,8 @@ function App() {
       <ThemeProvider theme={theme}>
         <Navigation />
         <ChainStatus />
+
+        {transactionInProgress && <TxInProgress />}
 
         {wChainId === 0x8a ? (
           <Routes>

@@ -9,3 +9,4 @@ export const wChainIDAtom = atom<number>(0);
 export const wSelectedAccountAtom = atom<string>('');
 
 export const factoryContractAtom = atom<Contract | null>(null);
+export const transactionInProgressAtom = atom<boolean>(false);

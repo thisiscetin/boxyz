@@ -28,6 +28,10 @@
         {
             "done": false,
             "title": "handle errors with contract interactions"
+        },
+        {
+            "done": false,
+            "title": "add events to all interactions and catch from FE for better UX"
         }
     ]
 }

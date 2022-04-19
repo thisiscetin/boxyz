@@ -1,7 +1,12 @@
 import styled from 'styled-components/macro';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { wProviderAtom, factoryContractAtom, wSelectedAccountAtom } from '../../store';
+import {
+  wProviderAtom,
+  factoryContractAtom,
+  wSelectedAccountAtom,
+  transactionInProgressAtom,
+} from '../../store';
 import { useAtom } from 'jotai';
 import { Contract, utils } from 'ethers';
 
@@ -69,6 +74,7 @@ export default function () {
   const [p2, setP2] = useState<number>(0);
   const [wSelectedAccount] = useAtom(wSelectedAccountAtom);
   const [owner, setOwner] = useState<string>('');
+  const [, setTransactionInProgress] = useAtom(transactionInProgressAtom);
 
   useEffect(() => {
     async function getBoxContract() {
@@ -126,7 +132,16 @@ export default function () {
 
   const list = () => {
     async function listBox() {
-      await boxContract?.list(utils.parseEther(listingPrice));
+      setTransactionInProgress(true);
+      try {
+        await boxContract?.list(utils.parseEther(listingPrice));
+      } catch (err: any) {
+        const code: number = err?.code;
+        if (err && code === 4001) {
+          alert(err.message);
+        }
+      }
+      setTransactionInProgress(false);
     }
 
     if (listingPrice) {
@@ -136,7 +151,16 @@ export default function () {
 
   const unlist = () => {
     async function unlistBox() {
-      await boxContract?.unlist();
+      setTransactionInProgress(true);
+      try {
+        await boxContract?.unlist();
+      } catch (err: any) {
+        const code: number = err?.code;
+        if (err && code === 4001) {
+          alert(err.message);
+        }
+      }
+      setTransactionInProgress(false);
     }
 
     unlistBox();

@@ -4,7 +4,7 @@ import { useAtom } from 'jotai';
 import { map } from 'lodash';
 import styled from 'styled-components/macro';
 
-import { factoryContractAtom, wSelectedAccountAtom } from '../../store';
+import { factoryContractAtom, wSelectedAccountAtom, transactionInProgressAtom } from '../../store';
 import Title from '../../Components/Title';
 import Box from '../../Components/Box';
 import Button from '../../Components/Button';
@@ -37,6 +37,7 @@ export default function () {
   const [factoryContract] = useAtom(factoryContractAtom);
   const [wSelectedAccount] = useAtom(wSelectedAccountAtom);
   const [ownedBoxes, setOwnedBoxes] = useState<number[]>([]);
+  const [, setTransactionInProgress] = useAtom(transactionInProgressAtom);
 
   const [p1, setP1] = useState<number>(0);
   const [p2, setP2] = useState<number>(0);
@@ -66,7 +67,18 @@ export default function () {
 
   const breed = () => {
     async function b() {
-      await factoryContract?.breed(p1, p2, { value: utils.parseEther('0.3') });
+      setTransactionInProgress(true);
+      try {
+        await factoryContract?.breed(p1, p2, { value: utils.parseEther('0.3') });
+      } catch (err: any) {
+        const code: number = err?.code;
+        if (code === 4001) {
+          alert(err.message);
+        } else if (code === -32603) {
+          alert(err.data.message);
+        }
+      }
+      setTransactionInProgress(false);
     }
     b();
   };

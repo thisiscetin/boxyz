@@ -4,7 +4,7 @@ import { useAtom } from 'jotai';
 import { Contract, utils } from 'ethers';
 
 import BoxA from '../../Constants/ABI/Box.json';
-import { wProviderAtom } from '../../store';
+import { wProviderAtom, wSelectedAccountAtom } from '../../store';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { map } from 'lodash';
 
@@ -111,6 +111,7 @@ export default function ({ FactoryContract, id, hideBuyButton }: BoxProps) {
   const [wProvider] = useAtom(wProviderAtom);
   const [box, setBox] = useState<string>('');
   const [boxContract, setBoxContract] = useState<Contract | null>(null);
+  const [wSelectedAccount] = useAtom(wSelectedAccountAtom);
 
   const [color, setColor] = useState([0, 0, 0]);
   const [size, setSize] = useState([0, 0, 0]);
@@ -118,6 +119,8 @@ export default function ({ FactoryContract, id, hideBuyButton }: BoxProps) {
   const [breedCount, setBreedCount] = useState(0);
   const [listed, setListed] = useState(false);
   const [price, setPrice] = useState(0);
+
+  const [hideBuy, setHideBuy] = useState(true);
 
   useEffect(() => {
     async function getBox() {
@@ -142,6 +145,10 @@ export default function ({ FactoryContract, id, hideBuyButton }: BoxProps) {
       getBreedCount();
     }
   }, [FactoryContract, id]);
+
+  useEffect(() => {
+    setHideBuy(hideBuyButton || wSelectedAccount.toLowerCase() === owner.toLowerCase());
+  }, [wSelectedAccount, owner, hideBuyButton]);
 
   useEffect(() => {
     async function getColor() {
@@ -227,7 +234,7 @@ export default function ({ FactoryContract, id, hideBuyButton }: BoxProps) {
                 <span>{owner.substring(0, 14)}...</span>
               </Row>
 
-              {listed && !hideBuyButton ? <Button onClick={buy}>buy</Button> : null}
+              {!hideBuy ? <Button onClick={buy}>buy</Button> : null}
             </>
           ) : (
             <Row>

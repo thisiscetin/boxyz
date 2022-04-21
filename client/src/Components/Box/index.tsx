@@ -2,16 +2,15 @@ import styled from 'styled-components/macro';
 import { useEffect, useState, useRef } from 'react';
 import { useAtom } from 'jotai';
 import { Contract, utils } from 'ethers';
-
-import BoxA from '../../Constants/ABI/Box.json';
-import { providerAtom, selectedAccountAtom, transactionInProgressAtom } from '../../store';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { map } from 'lodash';
-
 import { Link } from 'react-router-dom';
+import { providerAtom, selectedAccountAtom, transactionInProgressAtom } from '../../store';
 
-import Button from '../Button';
 import Spinner from '../Spinner';
+import Button from '../Button';
+
+import BoxA from '../../Constants/ABI/Box.json';
 
 const Container = styled.div`
   display: flex;
@@ -19,7 +18,7 @@ const Container = styled.div`
   padding: 0.2rem 0;
   margin: 0.2rem;
   width: 18rem;
-  background-color: #ffffff;
+  background-color: ${(props) => props.theme.white};
   color: ${(props) => props.theme.bgdark};
   border-radius: 0.4rem;
 
@@ -46,7 +45,7 @@ type ThreeDBoxProps = {
 const ThreeDBox = ({ color, size }: ThreeDBoxProps) => {
   const ref = useRef();
 
-  useFrame((state, delta) => {
+  useFrame(() => {
     //@ts-expect-error: xx
     ref.current.rotation.x += 0.005;
     //@ts-expect-error: xx

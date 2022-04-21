@@ -4,7 +4,7 @@ import { useAtom } from 'jotai';
 import { Contract, utils } from 'ethers';
 
 import BoxA from '../../Constants/ABI/Box.json';
-import { wProviderAtom, wSelectedAccountAtom, transactionInProgressAtom } from '../../store';
+import { providerAtom, selectedAccountAtom, transactionInProgressAtom } from '../../store';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { map } from 'lodash';
 
@@ -108,10 +108,10 @@ const Price = styled.span`
 `;
 
 export default function ({ FactoryContract, id, hideBuyButton }: BoxProps) {
-  const [wProvider] = useAtom(wProviderAtom);
+  const [wProvider] = useAtom(providerAtom);
   const [box, setBox] = useState<string>('');
   const [boxContract, setBoxContract] = useState<Contract | null>(null);
-  const [wSelectedAccount] = useAtom(wSelectedAccountAtom);
+  const [wSelectedAccount] = useAtom(selectedAccountAtom);
 
   const [color, setColor] = useState([0, 0, 0]);
   const [size, setSize] = useState([0, 0, 0]);

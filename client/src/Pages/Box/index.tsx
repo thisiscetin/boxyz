@@ -2,9 +2,9 @@ import styled from 'styled-components/macro';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
-  wProviderAtom,
+  providerAtom,
   factoryContractAtom,
-  wSelectedAccountAtom,
+  selectedAccountAtom,
   transactionInProgressAtom,
 } from '../../store';
 import { useAtom } from 'jotai';
@@ -64,28 +64,29 @@ const BoxHeader = styled.div`
 `;
 
 export default function () {
-  const [wProvider] = useAtom(wProviderAtom);
   const { boxId } = useParams();
+
+  const [provider] = useAtom(providerAtom);
   const [factoryContract] = useAtom(factoryContractAtom);
   const [boxContract, setBoxContract] = useState<Contract | null>(null);
   const [listingPrice, setListingPrice] = useState<string>('');
   const [listed, setListed] = useState<boolean>(false);
   const [p1, setP1] = useState<number>(0);
   const [p2, setP2] = useState<number>(0);
-  const [wSelectedAccount] = useAtom(wSelectedAccountAtom);
+  const [wSelectedAccount] = useAtom(selectedAccountAtom);
   const [owner, setOwner] = useState<string>('');
   const [, setTransactionInProgress] = useAtom(transactionInProgressAtom);
 
   useEffect(() => {
     async function getBoxContract() {
       const boxAddress = await factoryContract?.get(boxId);
-      setBoxContract(new Contract(boxAddress, BoxABI.abi, wProvider?.getSigner()));
+      setBoxContract(new Contract(boxAddress, BoxABI.abi, provider?.getSigner()));
     }
 
-    if (wProvider && factoryContract) {
+    if (provider && factoryContract) {
       getBoxContract();
     }
-  }, [wProvider, factoryContract, boxId]);
+  }, [provider, factoryContract, boxId]);
 
   useEffect(() => {
     async function getOwner() {
@@ -103,14 +104,14 @@ export default function () {
       if (p1Address === '0x0000000000000000000000000000000000000000') {
         setP1(0);
       } else {
-        const p1Contract = new Contract(p1Address, BoxABI.abi, wProvider?.getSigner());
+        const p1Contract = new Contract(p1Address, BoxABI.abi, provider?.getSigner());
         setP1(await p1Contract.id());
       }
 
       if (p2Address === '0x0000000000000000000000000000000000000000') {
         setP2(0);
       } else {
-        const p2Contract = new Contract(p2Address, BoxABI.abi, wProvider?.getSigner());
+        const p2Contract = new Contract(p2Address, BoxABI.abi, provider?.getSigner());
         setP2(await p2Contract.id());
       }
     }
@@ -118,17 +119,17 @@ export default function () {
     if (boxContract) {
       getParentContracts();
     }
-  }, [wProvider, boxContract]);
+  }, [provider, boxContract]);
 
   useEffect(() => {
     async function getListed() {
       setListed(await boxContract?.listed());
     }
 
-    if (wProvider && boxContract) {
+    if (provider && boxContract) {
       getListed();
     }
-  }, [boxContract, wProvider]);
+  }, [boxContract, provider]);
 
   const list = () => {
     async function listBox() {

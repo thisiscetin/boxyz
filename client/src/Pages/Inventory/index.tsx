@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { useAtom } from 'jotai';
 import { map } from 'lodash';
 
-import { factoryContractAtom, wSelectedAccountAtom } from '../../store';
+import { factoryContractAtom, selectedAccountAtom } from '../../store';
 import Title from '../../Components/Title';
 import Box from '../../Components/Box';
 
@@ -15,7 +15,7 @@ const Container = styled.div`
 `;
 
 export default function () {
-  const [selectedAccount] = useAtom(wSelectedAccountAtom);
+  const [selectedAccount] = useAtom(selectedAccountAtom);
   const [factoryContract] = useAtom(factoryContractAtom);
   const [ownedBoxes, setOwnedBoxes] = useState<number[]>([]);
 

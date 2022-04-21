@@ -1,7 +1,7 @@
 import styled from 'styled-components/macro';
 
 import { useAtom } from 'jotai';
-import { blockNumberAtom } from '../../store';
+import { blockNumberAtom, chainIDAtom } from '../../store';
 
 const Container = styled.div`
   display: flex;
@@ -19,6 +19,11 @@ const Section = styled.div`
 
 export default function () {
   const [blockNumber] = useAtom(blockNumberAtom);
+  const [chainId] = useAtom(chainIDAtom);
+
+  if (chainId !== 0x8a) {
+    return null;
+  }
 
   return (
     <Container>

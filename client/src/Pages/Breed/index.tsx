@@ -4,7 +4,7 @@ import { useAtom } from 'jotai';
 import { map } from 'lodash';
 import styled from 'styled-components/macro';
 
-import { factoryContractAtom, wSelectedAccountAtom, transactionInProgressAtom } from '../../store';
+import { factoryContractAtom, selectedAccountAtom, transactionInProgressAtom } from '../../store';
 import Title from '../../Components/Title';
 import Box from '../../Components/Box';
 import Button from '../../Components/Button';
@@ -35,7 +35,7 @@ const BoxSelection = styled.div`
 
 export default function () {
   const [factoryContract] = useAtom(factoryContractAtom);
-  const [wSelectedAccount] = useAtom(wSelectedAccountAtom);
+  const [wSelectedAccount] = useAtom(selectedAccountAtom);
   const [ownedBoxes, setOwnedBoxes] = useState<number[]>([]);
   const [, setTransactionInProgress] = useAtom(transactionInProgressAtom);
 
@@ -87,7 +87,7 @@ export default function () {
     return (
       <Container>
         <Title text="⛏️ Breed"></Title>
-        <p>You need at least 2 boxes minted on your account, consider buying boxes.</p>
+        <p>You need to own at least 2 boxes, consider buying boxes.</p>
       </Container>
     );
   }

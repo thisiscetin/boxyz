@@ -6,9 +6,9 @@ const Title = styled.div`
   color: ${(props) => props.theme.primary};
 `;
 
-type TitleProps = {
+interface TitleProps {
   text: string;
-};
+}
 
 export default function ({ text }: TitleProps) {
   return <Title>{text}</Title>;

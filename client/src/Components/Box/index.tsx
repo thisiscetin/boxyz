@@ -1,12 +1,12 @@
 import styled from 'styled-components/macro';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useAtom } from 'jotai';
 import { Contract, utils } from 'ethers';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { map } from 'lodash';
+import { Canvas } from '@react-three/fiber';
 import { Link } from 'react-router-dom';
 import { providerAtom, selectedAccountAtom, transactionInProgressAtom } from '../../store';
 
+import ThreeDBox, { Size, Color } from '../ThreeDBox';
 import Spinner from '../Spinner';
 import Button from '../Button';
 
@@ -30,37 +30,6 @@ const Container = styled.div`
     }
   }
 `;
-
-type BoxProps = {
-  FactoryContract: Contract;
-  id: number;
-  hideBuyButton?: boolean;
-};
-
-type ThreeDBoxProps = {
-  color: number[];
-  size: number[];
-};
-
-const ThreeDBox = ({ color, size }: ThreeDBoxProps) => {
-  const ref = useRef();
-
-  useFrame(() => {
-    //@ts-expect-error: xx
-    ref.current.rotation.x += 0.005;
-    //@ts-expect-error: xx
-    ref.current.rotation.y += 0.005;
-    //@ts-expect-error: xx
-    ref.current.rotation.z += 0.005;
-  });
-
-  return (
-    <mesh ref={ref} scale={0.4}>
-      <boxGeometry args={map(size, (dim: number) => dim / 100)} />
-      <meshStandardMaterial color={`rgb(${color[0]}, ${color[1]}, ${color[2]})`} />
-    </mesh>
-  );
-};
 
 const ThreeDContainer = styled.div`
   padding: 0.6rem;
@@ -106,14 +75,20 @@ const Price = styled.span`
   color: ${(props) => props.theme.red};
 `;
 
+interface BoxProps {
+  FactoryContract: Contract;
+  id: number;
+  hideBuyButton?: boolean;
+}
+
 export default function ({ FactoryContract, id, hideBuyButton }: BoxProps) {
   const [wProvider] = useAtom(providerAtom);
   const [box, setBox] = useState<string>('');
   const [boxContract, setBoxContract] = useState<Contract | null>(null);
   const [wSelectedAccount] = useAtom(selectedAccountAtom);
 
-  const [color, setColor] = useState([0, 0, 0]);
-  const [size, setSize] = useState([0, 0, 0]);
+  const [color, setColor] = useState<Color>([0, 0, 0]);
+  const [size, setSize] = useState<Size>([0, 0, 0]);
   const [owner, setOwner] = useState<string>('');
   const [breedCount, setBreedCount] = useState(0);
   const [listed, setListed] = useState(false);
@@ -210,7 +185,7 @@ export default function ({ FactoryContract, id, hideBuyButton }: BoxProps) {
             </Row>
 
             <BoxContainer>
-              <Canvas style={{ backgroundColor: 'white' }}>
+              <Canvas style={{ backgroundColor: '#cbe2fe' }}>
                 <ambientLight />
                 <pointLight position={[10, 10, 10]} />
                 <ThreeDBox color={color} size={size} />

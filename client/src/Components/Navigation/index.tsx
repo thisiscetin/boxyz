@@ -39,10 +39,10 @@ const NavItem = styled.p`
   }
 `;
 
-type LinkTextProps = {
+interface LinkTextProps {
   icon: string;
   text: string;
-};
+}
 
 const LinkText = ({ icon, text }: LinkTextProps) => (
   <>

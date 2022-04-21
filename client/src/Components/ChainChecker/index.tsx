@@ -2,9 +2,9 @@ import styled from 'styled-components/macro';
 import { useAtom } from 'jotai';
 import { chainIDAtom, selectedAccountAtom } from '../../store';
 
-type ChainCheckerProps = {
+interface ChainCheckerProps {
   children: React.ReactNode;
-};
+}
 
 const PlutoLink = styled.a`
   color: ${(props) => props.theme.orange};

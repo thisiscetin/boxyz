@@ -16,7 +16,7 @@ import Breed from './Pages/Breed';
 import Inventory from './Pages/Inventory';
 import Box from './Pages/Box';
 
-import { Theme } from './Constants/Theme';
+import { Theme } from './Constants/theme';
 import { transactionInProgressAtom } from './store';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);

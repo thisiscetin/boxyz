@@ -3,7 +3,7 @@ import { useAtom } from 'jotai';
 import { providerAtom, factoryContractAtom } from '../../store';
 import { Contract } from 'ethers';
 
-import { BoxFactoryAddress } from '../../Constants/Address';
+import { BoxFactoryAddress } from '../../Constants/address';
 import BoxFactory from '../../Constants/ABI/BoxFactory.json';
 
 function FactoryProvider() {

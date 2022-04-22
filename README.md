@@ -3,20 +3,19 @@
 I know it sounds strange, but maybe these boxes can breed and have children. They can be sold as well.
 boxyz is a fun project to trade and breed NFTs. Reachable over [https://boxyz.bond](https://boxyz.bond)
 
-![boxyz preview](https://ipfs.plutotest.network/ipfs/QmSrybACUVXy4gFfj7kxewZCcKn1BDSqLKujPo2i6Bssag "boxyz homepage")
+![boxyz preview](https://ipfs.plutotest.network/ipfs/QmejnfTyQ45aa187fF9AV3MnzLTsyuSAyFPK9ALiYbn3B5 "boxyz homepage")
 
 ## What is boxyz?
 
-boxyz is a blockchain breeding and trading platform where you can own boxes in different colors and sizes, breed them, and mint new boxes. Boxes are cute, colorful NFTs.
+boxyz is a blockchain breeding and trading platform where you can own boxes in different colors and sizes, breed them, and mint new boxes. 
+
+Boxes are cute, colorful NFTs. If you navigate to [https://boxyz.bond](https://boxyz.bond), you can see some boxes are minted and bred already. You can get free test ETH from [Pluto test network](https://plutotest.network/), buy two boxes, breed and trade them. A sample screen shot from breeding page below.
+
+![breeding preview](https://ipfs.plutotest.network/ipfs/QmP4QAn1XrhqHf6mbE7A9UTeakPLzEQNxjbKSZhBGgLL6J "breeding preview")
 
 ## Where it is deployed?
 
 It is deployed to [Pluto test network](https://plutotest.network/). It is deployable to any EVM-compatible blockchain.
-
-## What does it look like?
-
-If you navigate to [https://boxyz.bond](https://boxyz.bond), you can see some boxes are minted and bred already. You can get free test ETH from [Pluto test network](https://plutotest.network/), buy two boxes, breed and trade them.
-
 
 ## ![#69D2E7](https://via.placeholder.com/15/69D2E7/000000?text=+) boxyz properties
 

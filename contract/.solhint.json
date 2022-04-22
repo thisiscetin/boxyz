@@ -10,7 +10,7 @@
     "avoid-sha3": "warn",
     "compiler-version": [
       "error",
-      "^0.8.1"
+      "0.8.1"
     ],
     "func-visibility": [
       "warn",
